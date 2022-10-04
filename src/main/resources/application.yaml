@@ -1,0 +1,13 @@
+environement:
+  property: I AM THE DEFAULT
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: movieapi
+
+omdbapi:
+  url: https://www.omdbapi.com
+  apikey: c732beed

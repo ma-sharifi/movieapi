@@ -15,8 +15,7 @@
 	<description>Movie API</description>
 	<properties>
 		<java.version>11</java.version>
-		<apache.common.csv.version>1.8</apache.common.csv.version>
-		<jwt.version>0.9.1</jwt.version>
+		<apache.common.csv.version>1.9.0</apache.common.csv.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -33,6 +32,15 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${apache.common.csv.version}</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
