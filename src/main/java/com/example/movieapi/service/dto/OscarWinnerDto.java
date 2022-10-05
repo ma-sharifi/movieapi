@@ -1,5 +1,6 @@
 package com.example.movieapi.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ import java.time.LocalDate;
  */
 @Data
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class OscarWinnerDto implements Serializable {
         private static final long serialVersionUID = 12345673223L;
 
