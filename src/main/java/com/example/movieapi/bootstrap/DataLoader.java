@@ -1,7 +1,11 @@
 package com.example.movieapi.bootstrap;
 
+import com.example.movieapi.entity.UserRate;
+import com.example.movieapi.repository.UserRateRepository;
 import com.example.movieapi.service.OscarWinnerService;
+import com.example.movieapi.service.dto.UserRateDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,9 +24,12 @@ public class DataLoader implements CommandLineRunner {
 
     private final OscarWinnerService oscarWinnerService;
 
-    public DataLoader(OscarWinnerService oscarWinnerService, Environment environment) {
-        this.oscarWinnerService = oscarWinnerService;
+    private final UserRateRepository userRateRepository;
+
+    public DataLoader(Environment environment, OscarWinnerService oscarWinnerService, UserRateRepository userRateRepository) {
         this.environment = environment;
+        this.oscarWinnerService = oscarWinnerService;
+        this.userRateRepository = userRateRepository;
     }
 
     @Override
@@ -40,6 +47,19 @@ public class DataLoader implements CommandLineRunner {
             oscarWinnerService.loadOscarWinners();
         } catch (IOException e) {
             log.error("Exception while loading data from CSV file");
+        }
+
+        try{
+            UserRateDto userRateDto = new UserRateDto();
+            userRateDto.setSource("Mahdi");
+            customer.setSurname("Sharifi");
+
+            customer.addAccount(account);
+            customer.addAccount(account2);
+            customerRepository.save(customer);
+            log.debug("#customer1 : {}", customer);
+        }catch (Exception e){
+
         }
     }
 }
