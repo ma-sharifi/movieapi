@@ -2,7 +2,10 @@ package com.example.movieapi.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -10,7 +13,10 @@ import java.util.List;
  * @author Mahdi Sharifi
  * @since 10/4/22
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OmdbResponseDto {
 
@@ -57,7 +63,7 @@ public class OmdbResponseDto {
     public String poster;
 
     @JsonProperty("Ratings")
-    public List<UserRateDto> ratings;
+    public List<RateDto> ratings;
 
     @JsonProperty("Metascore")
     public String metascore;
@@ -67,12 +73,16 @@ public class OmdbResponseDto {
     public String imdbID;
 
     @JsonProperty("Type")
-    public String type;
+    public String type; //movie, series, episode
 
     @JsonProperty("DVD")
     public String dVD;
 
+    @JsonProperty("totalSeasons")
+    public Integer totalSeasons;
+
     @JsonProperty("BoxOffice")
+//    @JsonDeserialize(using = BoxOfficeSerializer.class)
     public String boxOffice;
 
     @JsonProperty("Production")
@@ -86,7 +96,12 @@ public class OmdbResponseDto {
 
     @JsonProperty("Error")
     private String error; //{"Response":"False","Error":"Something went wrong."}
-/*
+
+    public void addRate(RateDto rate) {
+        if (ratings != null)
+            ratings.add(rate);
+    }
+/*  MOVIE
     {
             "Title": "Black Swan",
             "Year": "2010",
@@ -126,6 +141,37 @@ public class OmdbResponseDto {
             "Production": "N/A",
             "Website": "N/A",
             "Response": "True"
+    }
+
+    SERIES
+    {
+      "Title": "24",
+      "Year": "2001–2010",
+      "Rated": "TV-14",
+      "Released": "06 Nov 2001",
+      "Runtime": "44 min",
+      "Genre": "Action, Crime, Drama",
+      "Director": "N/A",
+      "Writer": "Robert Cochran, Joel Surnow",
+      "Actors": "Kiefer Sutherland, Mary Lynn Rajskub, Carlos Bernard",
+      "Plot": "Counter Terrorism Agent Jack Bauer races against the clock to subvert terrorist plots and save his nation from ultimate disaster.",
+      "Language": "English, Russian, German, Korean, Arabic, Spanish, Serbian, Mandarin",
+      "Country": "United States",
+      "Awards": "Won 20 Primetime Emmys. 74 wins & 207 nominations total",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMTg5OTkyNzA0NF5BMl5BanBnXkFtZTcwMDYyMDUwMg@@._V1_SX300.jpg",
+      "Ratings": [
+        {
+          "Source": "Internet Movie Database",
+          "Value": "8.4/10"
+        }
+      ],
+      "Metascore": "N/A",
+      "imdbRating": "8.4",
+      "imdbVotes": "185,985",
+      "imdbID": "tt0285331",
+      "Type": "series",
+      "totalSeasons": "9",
+      "Response": "True"
     }
  */
 }

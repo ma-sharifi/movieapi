@@ -12,31 +12,26 @@ import java.text.ParseException;
 
 /**
  * @author Mahdi Sharifi
- * @since 10/4/22
+ * @since 10/5/22
  */
-public class BoxOfficeSerializer extends StdDeserializer<BigDecimal> {
+public class BoxOfficeSerializer extends StdDeserializer<Long> {
 
+    public BoxOfficeSerializer() {
+        this(null);
+    }
 
     public BoxOfficeSerializer(Class<?> vc) {
         super(vc);
     }
 
     @Override
-    public BigDecimal deserialize(
-            JsonParser jsonparser, DeserializationContext context)
-            throws IOException {
-
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
-        decimalFormatSymbols.setGroupingSeparator(',');
-        decimalFormatSymbols.setDecimalSeparator('.');
-        String pattern = "#,##0.0#";
-        DecimalFormat decimalFormat = new DecimalFormat(pattern, decimalFormatSymbols);
-        decimalFormat.setParseBigDecimal(true);
-
+    public Long deserialize(JsonParser jsonparser, DeserializationContext context) throws IOException {
+        long result;
         try {
-            return (BigDecimal) decimalFormat.parse(jsonparser.getText().replace("$", ""));
-        } catch (ParseException e) {
-            throw new RuntimeException("Exception parsing box office.");
+        result= Long.parseLong(jsonparser.getText().replace("$", "").replace(",",""));
+        } catch (Exception e) {
+            throw new RuntimeException("Exception "+e.getMessage()); //TODO
         }
+        return result;
     }
 }

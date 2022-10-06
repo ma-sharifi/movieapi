@@ -12,13 +12,9 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
 public class RequestDto {
 
-    @NotNull(message = "title is required")
-    private String title;
-
-    @NotNull(message = "value is required")
-    @Range(min = 1, max = 10, message = "value should be between 1 and 10")
+    @NotNull(message = "#rate is required")
+    @Range(min = 1, max = 10, message = "rate should be between 1 and 10")
     private Integer rate;
 }

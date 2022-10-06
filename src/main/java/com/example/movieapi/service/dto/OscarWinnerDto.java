@@ -1,9 +1,8 @@
 package com.example.movieapi.service.dto;
 
+import com.example.movieapi.util.serializer.GSONModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,12 +11,11 @@ import java.time.LocalDate;
  * @author Mahdi Sharifi
  * @since 10/4/22
  */
-@Data
+@EqualsAndHashCode(callSuper = true)
+@Getter @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
-public class OscarWinnerDto implements Serializable {
-        private static final long serialVersionUID = 12345673223L;
+public class OscarWinnerDto extends GSONModel {
 
         private LocalDate year;
         private String category;

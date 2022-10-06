@@ -1,7 +1,6 @@
-package com.example.movieapi.service;
+package com.example.service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.movieapi.service.OscarWinnerCsvService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 @SpringBootTest
-class OscarWinnerServiceTest {
+class OscarWinnerCsvServiceTest {
 
     @Autowired
-   private OscarWinnerService oscarWinnerService;
+   private OscarWinnerCsvService oscarWinnerService;
 
 
     @Test
@@ -30,13 +29,13 @@ class OscarWinnerServiceTest {
 
     @Test
     void Should_ReturnTrue_When_MovieWon() {
-        String title = "The Hurt Locker";
-        assertTrue(oscarWinnerService.isWonByTitleForBestPicture(title));
+        assertTrue(oscarWinnerService.isWonByTitleForBestPicture("The Hurt Locker"));
+        assertTrue(oscarWinnerService.isWonByTitleForBestPicture("Slumdog Millionaire"));
     }
     @Test
     void Should_ReturnFalse_When_MovieNotWin() {
-        String title = "Inception";
-        assertFalse(oscarWinnerService.isWonByTitleForBestPicture(title));
+        assertFalse(oscarWinnerService.isWonByTitleForBestPicture("Iron Man"));
+        assertFalse(oscarWinnerService.isWonByTitleForBestPicture("Black Swan"));
     }
 
     @Test
