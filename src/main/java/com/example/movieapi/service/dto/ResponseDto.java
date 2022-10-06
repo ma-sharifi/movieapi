@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mahdi Sharifi
@@ -22,12 +23,16 @@ public class ResponseDto<T> {
         this.payload = payload;
     }
 
-    @JsonProperty("status")
-    private int status;
+    public ResponseDto(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+    }
+
+    @JsonProperty("error_code")
+    private int errorCode;
     private String message;
     private  String path;//transient
 
-    private String parameters;
+    private Map<String, Object> parameters;
 
     @JsonIgnore
     private transient HttpStatus httpStatus;

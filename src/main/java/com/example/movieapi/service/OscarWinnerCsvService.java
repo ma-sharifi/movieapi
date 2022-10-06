@@ -6,7 +6,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class OscarWinnerService {
+public class OscarWinnerCsvService {
 
     private static final String CATEGORY="Best Picture";
 
@@ -34,7 +34,7 @@ public class OscarWinnerService {
 
     private final List<OscarWinnerDto> oscarWinners = new ArrayList<>();
 
-    public OscarWinnerService(File oscarWinnerFile) {
+    public OscarWinnerCsvService(File oscarWinnerFile) {
             this.oscarWinnerFile=oscarWinnerFile;
     }
 
@@ -47,6 +47,13 @@ public class OscarWinnerService {
     }
 
     public Boolean isWonByTitleForBestPicture(String title) {
+        log.info("#Call isWonByTitleForBestPicture: "+title);
+        log.info("#Call isWonByTitleForBestPicture: "+oscarWinners.stream().filter(movie ->  (movie.getNominee().contains(title))).collect(Collectors.toList()));
+        Optional<OscarWinnerDto> oscarWinnerDtoOptional=oscarWinners.stream()
+                .filter(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY))).findFirst();
+        if(oscarWinnerDtoOptional.isPresent())
+            log.info("###title: "+title+" ;WON; "+oscarWinnerDtoOptional.get());
+        else  log.error("###title: "+title+" ;LOOS");
 
         return oscarWinners.stream()
                 .anyMatch(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY)));

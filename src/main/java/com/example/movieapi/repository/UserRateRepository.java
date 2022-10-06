@@ -1,5 +1,6 @@
 package com.example.movieapi.repository;
 
+import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.entity.UserRate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -15,10 +16,9 @@ import java.util.Optional;
  */
 
 @Repository
-public interface UserRateRepository extends CrudRepository<UserRate, Long> {
-    Optional<UserRate> findByTitleAndUsername(String title, String username);
+public interface UserRateRepository extends CrudRepository<UserRate, UserMovieId> {
 
-    @Query("SELECT ur.title,ur.boxOffice,avg (ur.rate) FROM UserRate AS ur " +
-            "GROUP BY ur.title,ur.boxOffice HAVING avg (ur.rate) = 10 ORDER BY avg (ur.rate) DESC,ur.boxOffice DESC")
-    List<Object[]> topTenMovieOrderedByBoxOffice(Pageable pageable);
+    @Query("SELECT ur.id.imdbId , ur.title,ur.boxOffice ,avg (ur.rate), ur.rate,ur.id.username FROM UserRate AS ur " +
+            "GROUP BY ur.title,ur.boxOffice HAVING avg (ur.rate) > 0 ORDER BY avg (ur.rate) DESC,ur.boxOffice DESC")
+    List<Object[]> findTopTenOrderedByBoxOffice(Pageable pageable);
 }
