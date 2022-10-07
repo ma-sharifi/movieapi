@@ -47,8 +47,8 @@ public class OscarWinnerCsvService {
     }
 
     public Boolean isWonByTitleForBestPicture(String title) {
-        log.info("#Call isWonByTitleForBestPicture: "+title);
-        log.info("#Call isWonByTitleForBestPicture: "+oscarWinners.stream().filter(movie ->  (movie.getNominee().contains(title))).collect(Collectors.toList()));
+//        log.info("#Call isWonByTitleForBestPicture: "+title);
+//        log.info("#Call isWonByTitleForBestPicture: "+oscarWinners.stream().filter(movie ->  (movie.getNominee().contains(title))).collect(Collectors.toList()));
         Optional<OscarWinnerDto> oscarWinnerDtoOptional=oscarWinners.stream()
                 .filter(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY))).findFirst();
         if(oscarWinnerDtoOptional.isPresent())

@@ -16,17 +16,4 @@ Welcome to Movie API.
 ## Swagger:
     documentation is: http://localhost:8080/swagger-ui/index.html
 
-To run locally the application you have to build it:
 
-```shell
-mvn package
-```
-and then execute the jar:
-```shell
-java -jar target/movieapi.jar
-```
-
-You can run the tests with:
-```shell
-mvn test
-```

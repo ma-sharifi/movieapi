@@ -1,4 +1,4 @@
-package com.example.mapper;
+package com.example.movieapi.mapper;
 
 import com.example.movieapi.MovieapiApplication;
 import com.example.movieapi.entity.UserMovieId;
@@ -45,32 +45,4 @@ class UserRateMapperTest {
         assertEquals(dto.getTitle(), entity.getTitle());
     }
 
-//    @Test
-//    void  givenDtoToEntity_whenMaps_thenCorrect_allDependency(){
-//        Account entityAccount;
-//        AccountTransaction accountTransaction1;
-//        Set<AccountTransaction> accountTransactionList=new HashSet<>();
-//
-//        entityAccount = new Account(1L,accountTransactionList,null);
-//        entityAccount.setId(1L);
-//        entityAccount.setCreatedAt(new Date());
-//
-//        accountTransaction1 = new AccountTransaction(1,10,1L,entityAccount);
-//        accountTransaction1.setId(1L);
-//
-//        accountTransactionList.add(accountTransaction1);
-//
-//        AccountDto accountDto = mapper.toDto(entityAccount);
-//
-//        assertEquals(entityAccount.getId(), accountDto.getId());
-//        assertEquals(entityAccount.getBalance(), accountDto.getBalance());
-//        assertEquals(entityAccount.getAccountTransactions().size(), accountDto.getAccountTransactions().size());
-//        assertEquals(1, accountDto.getAccountTransactions().size());
-//
-//        AccountTransactionDto accountTransactionDto= accountDto.getAccountTransactions().stream().findFirst().get();
-//        assertEquals(accountTransaction1.getId(), accountTransactionDto.getId());
-//        assertEquals(accountTransaction1.getReferenceNo(), accountTransactionDto.getReferenceNo());
-//        assertEquals(accountTransaction1.getNewBalance(), accountTransactionDto.getNewBalance());
-//        assertEquals(accountTransaction1.getAmount(), accountTransactionDto.getAmount());
-//    }
 }

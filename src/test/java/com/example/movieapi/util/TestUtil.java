@@ -1,4 +1,4 @@
-package com.example.util;
+package com.example.movieapi.util;
 
 import org.assertj.core.api.Assertions;
 

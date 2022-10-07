@@ -1,6 +1,5 @@
-package com.example.service;
+package com.example.movieapi.service;
 
-import com.example.movieapi.service.OmdbService;
 import com.example.movieapi.service.dto.OmdbResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

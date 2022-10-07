@@ -5,6 +5,7 @@ import com.example.movieapi.entity.UserRate;
 import com.example.movieapi.repository.UserRateRepository;
 import com.example.movieapi.service.OscarWinnerCsvService;
 import com.example.movieapi.service.dto.UserRateDto;
+import com.example.movieapi.singleton.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,7 @@ public class DataLoader implements CommandLineRunner {
         } catch (IOException e) {
             log.error("Exception while loading data from CSV file");
         }
+
 
 //        List<UserRate> list=List.of(new UserRate(new UserMovieId("tt0947798","mahdi"),8,"Black Swan",106954678L)
 //        ,new UserRate(new UserMovieId("tt1375666","mahdi"),9,"Inception",92587330L)

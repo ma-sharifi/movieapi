@@ -1,6 +1,5 @@
-package com.example;
+package com.example.movieapi;
 
-import com.example.movieapi.MovieapiApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.annotation.ElementType;

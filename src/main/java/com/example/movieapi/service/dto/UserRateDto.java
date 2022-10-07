@@ -36,4 +36,6 @@ public class UserRateDto {
 
     @JsonProperty("box_office")
     private Long boxOffice;
+
+    private String url;
 }

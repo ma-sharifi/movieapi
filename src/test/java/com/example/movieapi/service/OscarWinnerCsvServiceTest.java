@@ -1,6 +1,5 @@
-package com.example.service;
+package com.example.movieapi.service;
 
-import com.example.movieapi.service.OscarWinnerCsvService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

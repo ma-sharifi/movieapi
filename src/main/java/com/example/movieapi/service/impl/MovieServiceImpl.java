@@ -11,13 +11,14 @@ import com.example.movieapi.service.dto.RateDto;
 import com.example.movieapi.service.dto.UserRateDto;
 import com.example.movieapi.service.mapper.UserRateMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Mahdi Sharifi
@@ -31,6 +32,9 @@ public class MovieServiceImpl implements MovieService {
     UserRateRepository repository;
     UserRateMapper userRateMapper;
 
+    @Value("${server.port}")
+    private String port;
+
     public MovieServiceImpl(OmdbService omdbService, OscarWinnerCsvService winnerCsvService, UserRateRepository repository, UserRateMapper userRateMapper) {
         this.omdbService = omdbService;
         this.winnerCsvService = winnerCsvService;
@@ -38,32 +42,31 @@ public class MovieServiceImpl implements MovieService {
         this.userRateMapper = userRateMapper;
     }
 
+    /**
+     * Because there is no information about type of Oscar on Omdb API,
+     * First of all SCV file search.
+     * @param title
+     * @return
+     */
     @Override
-    public OmdbResponseDto isWonOscar(String title) {
+    public Optional<OmdbResponseDto>  isWonOscar(String title) {
+        Optional<OmdbResponseDto>  responseDtoOptional = Optional.empty();
         boolean isWon = winnerCsvService.isWonByTitleForBestPicture(title);
         if (isWon) {
             // look up movie on API
-            Optional<OmdbResponseDto> responseDtoOptional = omdbService.getSingleMovieByTitle(title);
-            if (responseDtoOptional.isPresent())
-                return responseDtoOptional.get();
+            responseDtoOptional = omdbService.getSingleMovieByTitle(title);
         }
-        return null;
+        return responseDtoOptional;
     }
 
     @Override
-    public OmdbResponseDto rateByTitle(UserRateDto rateRequestDto, String user) {
-        return null;
-    }
-
-    @Override
-    public UserRateDto rateByImdbId(String imdbId, int rate, String user) {
-//        String box="$106,954,678";
-        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByImdbId(imdbId);
+    public UserRateDto rateByTitle(String title, int rate, String user) {
+        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByTitle(title);
         UserRate userRate = null;
         if (omdbResponseDtoOptional.isPresent()) {
             OmdbResponseDto omdbResponseDto = omdbResponseDtoOptional.get();
             long boxOffice = Long.parseLong(omdbResponseDto.getBoxOffice().replace("$", "").replace(",", ""));
-            UserMovieId id=new UserMovieId(imdbId, user);
+            UserMovieId id=new UserMovieId(omdbResponseDto.getImdbID(), user);
             userRate = UserRate.builder()
                     .rate(rate)
                     .id(id)
@@ -75,21 +78,46 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<OmdbResponseDto> findTopTen() { //tt1375666 , tt0947798
-        List<OmdbResponseDto> result=new ArrayList<>();
+    public UserRateDto rateByImdbId(String imdbId, int rate, String user) {
+//        String box="$106,954,678";
+        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByImdbId(imdbId);
+        UserRate userRate = null;
+        if (omdbResponseDtoOptional.isPresent()) {
+            OmdbResponseDto omdbResponseDto = omdbResponseDtoOptional.get();
+            long boxOffice = Long.parseLong(omdbResponseDto.getBoxOffice().replace("$", "").replace(",", ""));
+            UserMovieId id=new UserMovieId(omdbResponseDto.getImdbID(), user);
+            userRate = UserRate.builder()
+                    .rate(rate)
+                    .id(id)
+                    .title(omdbResponseDto.getTitle())
+                    .boxOffice(boxOffice).build();
+            repository.save(userRate);
+        }
+        return userRateMapper.toDto(userRate);
+    }
+
+    @Override
+    public List<UserRateDto> findTopTen() { //tt1375666 , tt0947798
+//        List<OmdbResponseDto> result=new ArrayList<>();
         List<Object[]> list = repository.findTopTenOrderedByBoxOffice(PageRequest.of(0, 10));
         List<UserRateDto> userRateDtoList = list.stream().map(this::toUserRateDto).toList();
-        log.info("#topRateMovies: " + userRateDtoList);
-
-        for (UserRateDto userRateDto: userRateDtoList){
-            Optional<OmdbResponseDto> omdbResponseDtoOptional=  omdbService.getSingleMovieByImdbId(userRateDto.getImdbId());
-            if(omdbResponseDtoOptional.isPresent()){
-                OmdbResponseDto omdbResponseDto= omdbResponseDtoOptional.get();
-                omdbResponseDto.addRate(new RateDto(userRateDto.getUsername(),userRateDto.getRate()+"/"+10));
-                result.add(omdbResponseDto);
-            }
+        for(UserRateDto dto: userRateDtoList ){
+            dto.setUrl("http://localhost:"+port+"/v1/movies/"+dto.getImdbId());
         }
-        return result;
+        log.info("#topRateMovies: " + userRateDtoList);
+//        List<String> imdbId=userRateDtoList.stream().map(UserRateDto::getImdbId).toList();
+//        result = omdbService.getMovieByListOfImdbId(imdbId);
+
+//        for (UserRateDto userRateDto: userRateDtoList){
+//            Optional<OmdbResponseDto> omdbResponseDtoOptional=  omdbService.getSingleMovieByImdbId(userRateDto.getImdbId());//TODO Completable future.
+//            if(omdbResponseDtoOptional.isPresent()){
+//                OmdbResponseDto omdbResponseDto= omdbResponseDtoOptional.get();
+//                omdbResponseDto.addRate(new RateDto(userRateDto.getUsername(),userRateDto.getRate()+"/"+10));
+//                result.add(omdbResponseDto);
+//            }
+//        }
+
+        return userRateDtoList;
     }
 
     public UserRateDto toUserRateDto(Object[] record) {
