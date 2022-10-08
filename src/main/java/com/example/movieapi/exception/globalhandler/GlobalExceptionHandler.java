@@ -1,11 +1,13 @@
-package com.example.movieapi.exception;
+package com.example.movieapi.exception.globalhandler;
 
+import com.example.movieapi.exception.*;
 import com.example.movieapi.service.dto.ResponseDto;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Mahdi Sharifi
@@ -17,15 +19,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(value = {AuthenticationException.class})
+    @ResponseBody
+    public ResponseEntity<ResponseDto> handleAuthenticationException(AuthenticationException ex) {
+        log.debug("#handleAuthenticationException: "+ex.getMessage());
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setHttpStatus(ex.getHttpStatus());
+
+        responseDto.setErrorCode(ex.getErrorCode());
+        return ResponseEntity.status(responseDto.getHttpStatus()).body(responseDto);
+    }
+
 //    @ExceptionHandler(value = {MovieNotFoundException.class})
 //    public ResponseEntity<ResponseDto> handleMovieNotFoundException(MovieNotFoundException ex) {
+//
 //        ResponseDto responseDto = new ResponseDto();
 //        responseDto.setHttpStatus(ex.getHttpStatus());
-//
-//        if (ex.getMessage() == null || ex.getMessage().isEmpty())
-//            responseDto.setMessage("Movie not found.");
-//        else
-//            responseDto.setMessage(ex.getMessage());
 //        responseDto.setErrorCode(ex.getErrorCode());
 //        return ResponseEntity.status(responseDto.getHttpStatus()).body(responseDto);
 //    }
@@ -43,7 +52,8 @@ public class GlobalExceptionHandler {
 //        return ResponseEntity.status(responseDto.getHttpStatus()).body(responseDto);
 //    }
 
-    @ExceptionHandler(value = {CsvFileException.class,OmdbApiException.class,BadRequestAlertException.class,MovieNotFoundException.class})
+    @ExceptionHandler(value = {CsvFileException.class, OmdbApiException.class,
+            BadRequestAlertException.class, MovieNotFoundException.class})
     public ResponseEntity<ResponseDto> handleException(AbstractThrowable ex) {
         return ResponseEntity.status(ex.getHttpStatus()).body(toDto(ex));
     }

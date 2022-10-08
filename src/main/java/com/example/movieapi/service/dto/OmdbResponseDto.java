@@ -2,11 +2,13 @@ package com.example.movieapi.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -17,10 +19,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
+@Schema(description = "save Omdb API response data")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OmdbResponseDto {
 
     @JsonProperty("Title")
+    @NotNull
     public String title;
 
     @JsonProperty("Year")
@@ -93,6 +97,9 @@ public class OmdbResponseDto {
 
     @JsonProperty("Response")
     public String response;
+
+    @JsonProperty("won_best_picture")
+    private Boolean wonBestPicture;
 
     @JsonProperty("Error")
     private String error; //{"Response":"False","Error":"Something went wrong."}

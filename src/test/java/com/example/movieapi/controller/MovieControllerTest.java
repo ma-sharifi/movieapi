@@ -1,22 +1,21 @@
 package com.example.movieapi.controller;
 
-import com.example.movieapi.IntegrationTest;
 import com.example.movieapi.MovieapiApplication;
 import com.example.movieapi.entity.UserRate;
-import com.example.movieapi.exception.OmdbApiException;
 import com.example.movieapi.repository.UserRateRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -28,10 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MovieapiApplication.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class MovieControllerImplTest {
+public class MovieControllerTest {
 
     private static final String DEFAULT_TITLE = "Black Swan";
     private static final String ENTITY_API_URL = "/v1/movies";
+    private static final String WON_URL = ENTITY_API_URL+"/won";
+    private static final String RATE_URL = ENTITY_API_URL+"/rate";
+    private static final String TOP_TEN_URL = ENTITY_API_URL+"/top-ten";
 
     @Autowired
     private UserRateRepository userRateRepository;
@@ -39,14 +41,10 @@ public class MovieControllerImplTest {
     @Autowired
     private MockMvc mockMvc;
 
-//    @Autowired
-//    private MockRestServiceServer mockServiceServer;
-
     private UserRate userRate;
 
     /**
      * Create an entity for this test.
-     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -62,10 +60,10 @@ public class MovieControllerImplTest {
     }
 //
     @Test
-    void givenMovieByTitle_ShouldReturnMovieWonOscar() throws Exception {
+    void shouldReturnMovieInfo_whenMovieWonOscarIsCalledByTitle() throws Exception {
         mockMvc
                 .perform(
-                        get(ENTITY_API_URL + "/won?title=The Hurt Locker"))//Black Swan
+                        get(WON_URL+"?title=The Hurt Locker"))//Black Swan
 //                                .header("Authorization", JWT))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.payload[0].Title").value("The Hurt Locker"))
@@ -74,6 +72,18 @@ public class MovieControllerImplTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.payload[0].Director").value("Kathryn Bigelow"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.payload[0].Awards").value("Won 6 Oscars. 125 wins & 130 nominations total"));
     }
+
+//    @Test TODO
+//    public void givenNullTitle_thenReturnValidationErrors() throws Exception {
+//        ApiErrorDto error = ApiErrorDto.builder().reason(Reason.REQUIRED_FIELD).param("title").message("Param is missing").build();
+//        ApiResponseDto apiResponseDto = ApiResponseDto.builder().errors(error).badRequest().build();
+//
+//        mockMvc.perform(get(WON_URL).header(AUTHORIZATION_HEADER, createJwtHeader(USER_1))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//                .andExpect(content().json(asJsonString(apiResponseDto)));
+//    }
 
 //    @Test
 //    void givenMovieTitle_ShouldReturnOmdbApiException() throws Exception {
@@ -85,22 +95,13 @@ public class MovieControllerImplTest {
 //    }
 
     @Test
-    void givenMovieTitle_ShouldReturnNotFound() throws Exception {
+    void shouldReturnThrowNotFoundException_whenNotWon() throws Exception {
         mockMvc
                 .perform(
-                        get(ENTITY_API_URL + "/won?title=Black Swan"))
+                        get(WON_URL + "/won?title=Black Swan"))
 //                                .header("Authorization", JWT))
                 .andExpect(status().isNotFound());
-
-//
-//          .andExpect(MockMvcResultMatchers.jsonPath("$.Title").value("Black Swan"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.Year").value("2010"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.imdbID").value("tt0947798"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.Director").value("Darren Aronofsky"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.Awards").value("Won 1 Oscar. 97 wins & 280 nominations total"));
-
-
-        System.out.println("#Test givenMovieTitle_ShouldReturnNotFound");
+        // TODO
     }
 //
 ////    @Test

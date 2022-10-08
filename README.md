@@ -14,6 +14,6 @@ Welcome to Movie API.
 
 # Documentation
 ## Swagger:
-    documentation is: http://localhost:8080/swagger-ui/index.html
+ > http://localhost:8080/swagger-ui/index.html
 
 

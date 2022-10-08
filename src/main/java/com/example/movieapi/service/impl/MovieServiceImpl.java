@@ -2,10 +2,12 @@ package com.example.movieapi.service.impl;
 
 import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.entity.UserRate;
+import com.example.movieapi.exception.MovieNotFoundException;
 import com.example.movieapi.repository.UserRateRepository;
 import com.example.movieapi.service.MovieService;
 import com.example.movieapi.service.OmdbService;
 import com.example.movieapi.service.OscarWinnerCsvService;
+import com.example.movieapi.service.UserRateService;
 import com.example.movieapi.service.dto.OmdbResponseDto;
 import com.example.movieapi.service.dto.RateDto;
 import com.example.movieapi.service.dto.UserRateDto;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -29,16 +32,17 @@ import java.util.Optional;
 public class MovieServiceImpl implements MovieService {
     OmdbService omdbService;
     OscarWinnerCsvService winnerCsvService;
-    UserRateRepository repository;
-    UserRateMapper userRateMapper;
+    UserRateService userRateService;
+    UserRateMapper  userRateMapper;
 
     @Value("${server.port}")
     private String port;
 
-    public MovieServiceImpl(OmdbService omdbService, OscarWinnerCsvService winnerCsvService, UserRateRepository repository, UserRateMapper userRateMapper) {
+
+    public MovieServiceImpl(OmdbService omdbService, OscarWinnerCsvService winnerCsvService, UserRateService userRateService, UserRateMapper userRateMapper) {
         this.omdbService = omdbService;
         this.winnerCsvService = winnerCsvService;
-        this.repository = repository;
+        this.userRateService = userRateService;
         this.userRateMapper = userRateMapper;
     }
 
@@ -49,20 +53,22 @@ public class MovieServiceImpl implements MovieService {
      * @return
      */
     @Override
-    public Optional<OmdbResponseDto>  isWonOscar(String title) {
+    public OmdbResponseDto  isWonOscar(String title) throws MovieNotFoundException {
         Optional<OmdbResponseDto>  responseDtoOptional = Optional.empty();
         boolean isWon = winnerCsvService.isWonByTitleForBestPicture(title);
         if (isWon) {
             // look up movie on API
             responseDtoOptional = omdbService.getSingleMovieByTitle(title);
+            responseDtoOptional.ifPresent(movie->movie.setWonBestPicture(true));
         }
-        return responseDtoOptional;
+        return responseDtoOptional.orElseThrow(()->new MovieNotFoundException(title));
     }
 
     @Override
-    public UserRateDto rateByTitle(String title, int rate, String user) {
+    public UserRateDto rateByTitle(String title, int rate, String user) throws MovieNotFoundException{
         Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByTitle(title);
         UserRate userRate = null;
+        UserRateDto result= null;
         if (omdbResponseDtoOptional.isPresent()) {
             OmdbResponseDto omdbResponseDto = omdbResponseDtoOptional.get();
             long boxOffice = Long.parseLong(omdbResponseDto.getBoxOffice().replace("$", "").replace(",", ""));
@@ -72,63 +78,40 @@ public class MovieServiceImpl implements MovieService {
                     .id(id)
                     .title(omdbResponseDto.getTitle())
                     .boxOffice(boxOffice).build();
-            repository.save(userRate);
-        }
-        return userRateMapper.toDto(userRate);
-    }
+            userRateService.save(userRate);
+            result= userRateMapper.toDto(userRate);
+            result.setUrl("http://localhost:" + port + "/v1/movies/" + omdbResponseDto.getImdbID());
+            return result;
 
-    @Override
-    public UserRateDto rateByImdbId(String imdbId, int rate, String user) {
-//        String box="$106,954,678";
-        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByImdbId(imdbId);
-        UserRate userRate = null;
-        if (omdbResponseDtoOptional.isPresent()) {
-            OmdbResponseDto omdbResponseDto = omdbResponseDtoOptional.get();
-            long boxOffice = Long.parseLong(omdbResponseDto.getBoxOffice().replace("$", "").replace(",", ""));
-            UserMovieId id=new UserMovieId(omdbResponseDto.getImdbID(), user);
-            userRate = UserRate.builder()
-                    .rate(rate)
-                    .id(id)
-                    .title(omdbResponseDto.getTitle())
-                    .boxOffice(boxOffice).build();
-            repository.save(userRate);
-        }
-        return userRateMapper.toDto(userRate);
+        } else throw new MovieNotFoundException(title);
+
     }
+//
+//    @Override
+//    public UserRateDto rateByImdbId(String imdbId, int rate, String user) { //TODO Remove It
+////        String box="$106,954,678";
+//        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByImdbId(imdbId);
+//        UserRateDto userRateDto=null;
+//        UserRate userRate = null;
+//        if (omdbResponseDtoOptional.isPresent()) {
+//            OmdbResponseDto omdbResponseDto = omdbResponseDtoOptional.get();
+//            long boxOffice = Long.parseLong(omdbResponseDto.getBoxOffice().replace("$", "").replace(",", ""));
+//            UserMovieId id=new UserMovieId(omdbResponseDto.getImdbID(), user);
+//            userRate = UserRate.builder()
+//                    .rate(rate)
+//                    .id(id)
+//                    .title(omdbResponseDto.getTitle())
+//                    .boxOffice(boxOffice).build();
+//            userRateDto= userRateService.save(userRate);
+//        }
+//        return userRateDto;
+//    }
 
     @Override
     public List<UserRateDto> findTopTen() { //tt1375666 , tt0947798
-//        List<OmdbResponseDto> result=new ArrayList<>();
-        List<Object[]> list = repository.findTopTenOrderedByBoxOffice(PageRequest.of(0, 10));
-        List<UserRateDto> userRateDtoList = list.stream().map(this::toUserRateDto).toList();
-        for(UserRateDto dto: userRateDtoList ){
-            dto.setUrl("http://localhost:"+port+"/v1/movies/"+dto.getImdbId());
-        }
-        log.info("#topRateMovies: " + userRateDtoList);
-//        List<String> imdbId=userRateDtoList.stream().map(UserRateDto::getImdbId).toList();
-//        result = omdbService.getMovieByListOfImdbId(imdbId);
-
-//        for (UserRateDto userRateDto: userRateDtoList){
-//            Optional<OmdbResponseDto> omdbResponseDtoOptional=  omdbService.getSingleMovieByImdbId(userRateDto.getImdbId());//TODO Completable future.
-//            if(omdbResponseDtoOptional.isPresent()){
-//                OmdbResponseDto omdbResponseDto= omdbResponseDtoOptional.get();
-//                omdbResponseDto.addRate(new RateDto(userRateDto.getUsername(),userRateDto.getRate()+"/"+10));
-//                result.add(omdbResponseDto);
-//            }
-//        }
-
+        log.debug("#findTopTen called.");
+        List<UserRateDto> userRateDtoList = userRateService.findTopTenOrderedByBoxOffice();
         return userRateDtoList;
-    }
-
-    public UserRateDto toUserRateDto(Object[] record) {
-        UserRateDto userRateDto = new UserRateDto();
-        userRateDto.setImdbId((String) record[0]);
-        userRateDto.setTitle((String) record[1]);
-        userRateDto.setBoxOffice((long) record[2]);
-        userRateDto.setRateAverage((double) record[3]);
-        userRateDto.setRate((int) record[4]);
-        userRateDto.setUsername((String) record[5]);
-        return userRateDto;
     }
 
 }

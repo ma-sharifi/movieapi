@@ -4,8 +4,6 @@ import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.entity.UserRate;
 import com.example.movieapi.repository.UserRateRepository;
 import com.example.movieapi.service.OscarWinnerCsvService;
-import com.example.movieapi.service.dto.UserRateDto;
-import com.example.movieapi.singleton.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;

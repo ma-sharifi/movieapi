@@ -47,13 +47,11 @@ public class OscarWinnerCsvService {
     }
 
     public Boolean isWonByTitleForBestPicture(String title) {
-//        log.info("#Call isWonByTitleForBestPicture: "+title);
-//        log.info("#Call isWonByTitleForBestPicture: "+oscarWinners.stream().filter(movie ->  (movie.getNominee().contains(title))).collect(Collectors.toList()));
         Optional<OscarWinnerDto> oscarWinnerDtoOptional=oscarWinners.stream()
                 .filter(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY))).findFirst();
         if(oscarWinnerDtoOptional.isPresent())
-            log.info("###title: "+title+" ;WON; "+oscarWinnerDtoOptional.get());
-        else  log.error("###title: "+title+" ;LOOS");
+            log.debug("###title: "+title+" ;WON; "+oscarWinnerDtoOptional.get());
+        else  log.debug("###title: "+title+" ;LOOS");
 
         return oscarWinners.stream()
                 .anyMatch(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY)));
@@ -77,8 +75,8 @@ public class OscarWinnerCsvService {
         return dto;
     }
 
-    private LocalDate toYear(CSVRecord record) {
-        String date = record.get("Year");
+    private LocalDate toYear(CSVRecord csvRecord) {
+        String date = csvRecord.get("Year");
         DateTimeFormatter format = new DateTimeFormatterBuilder()
                 .appendPattern("yyyy")
                 .parseDefaulting(ChronoField.MONTH_OF_YEAR, 1)

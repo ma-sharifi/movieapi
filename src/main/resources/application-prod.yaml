@@ -24,3 +24,5 @@ omdbapi:
   url: http://www.omdbapi.com/
   apikey: c732beed
 
+jwt:
+  secret: mySecret

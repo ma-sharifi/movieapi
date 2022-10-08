@@ -3,7 +3,6 @@ package com.example.movieapi.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class UserRate implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +38,20 @@ public class UserRate implements Serializable {
         this.id = id;
     }
 
-    //    @Column(name = "UPDATED_AT")
-//    private LocalDateTime updatedAt;
-//
-//    @PrePersist @PreUpdate
-//    public void prePersist() {
-//        this.updatedAt = LocalDateTime.now();
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserRate)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((UserRate) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
 }

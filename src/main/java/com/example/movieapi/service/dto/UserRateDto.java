@@ -2,7 +2,9 @@ package com.example.movieapi.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
@@ -18,7 +20,7 @@ import java.time.LocalDateTime;
  * "Value": "8.0/10"
  * },
  */
-@Data
+@Data @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRateDto {
 

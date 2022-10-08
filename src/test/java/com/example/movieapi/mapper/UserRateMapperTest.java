@@ -34,10 +34,11 @@ class UserRateMapperTest {
     }
     @Test
     void givenDtoToEntity_whenMaps_thenCorrect() {
-        UserRateDto dto = new UserRateDto();
-        dto.setTitle("Black Swan");
-        dto.setUsername("mahdi");
-        dto.setImdbId("tt1375666");
+        UserRateDto dto = UserRateDto.builder()
+                .title("Black Swan")
+                .username("mahdi")
+                .imdbId("tt1375666")
+                .build();
         UserRate entity = mapper.toEntity(dto);
 
         assertEquals(dto.getUsername(), entity.getId().getUsername());

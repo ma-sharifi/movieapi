@@ -1,8 +1,17 @@
 environement:
   property: I AM THE DEFAULT
 
+logging:
+  level:
+    ROOT: INFO
+    com.example: DEBUG
+
 server:
   port: 8080
+
+springdoc:
+  api-docs:
+    path : /javainuse-openapi
 
 spring:
   application:
@@ -23,4 +32,8 @@ spring:
 omdbapi:
   url: http://www.omdbapi.com/
   apikey: c732beed
+
+jwt:
+  secret: mySecret
+
 

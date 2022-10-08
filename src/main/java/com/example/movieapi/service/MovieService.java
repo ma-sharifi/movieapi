@@ -1,6 +1,7 @@
 package com.example.movieapi.service;
 
 import com.example.movieapi.entity.UserRate;
+import com.example.movieapi.exception.MovieNotFoundException;
 import com.example.movieapi.service.dto.OmdbResponseDto;
 import com.example.movieapi.service.dto.UserRateDto;
 
@@ -23,16 +24,16 @@ public interface MovieService {
      * CSV-> 2010 (83rd),Best Picture,The King's Speech,"Iain Canning, Emile Sherman and Gareth Unwin, Producers",YES,,,,,,
      *
      */
-    Optional<OmdbResponseDto> isWonOscar(String title);
+    OmdbResponseDto isWonOscar(String title);
     /**
      * Rate the movie and persis the rate in local DB
      */
-    UserRateDto rateByTitle(String imdbId, int rate, String user);
+    UserRateDto rateByTitle(String title, int rate, String user) throws MovieNotFoundException;
 
-    /**
-     * Rate the movie and persis the rate in local DB
-     */
-    UserRateDto rateByImdbId(String imdbId, int rate, String user);
+//    /**
+//     * Rate the movie and persis the rate in local DB
+//     */
+//    UserRateDto rateByImdbId(String imdbId, int rate, String user);
 
     /**
      * Rate the movie and persis the rate in local DB
