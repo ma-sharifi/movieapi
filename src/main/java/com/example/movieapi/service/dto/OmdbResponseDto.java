@@ -95,14 +95,22 @@ public class OmdbResponseDto {
     @JsonProperty("Website")
     public String website;
 
-    @JsonProperty("Response")
-    public String response;
 
     @JsonProperty("won_best_picture")
     private Boolean wonBestPicture;
 
+    /**
+     * "Response":"False"
+     */
+    @JsonProperty("Response")
+    public String response;
+
+    /**
+     * "Error":"Something went wrong."
+     * {"Response":"False","Error":"Something went wrong."}
+     */
     @JsonProperty("Error")
-    private String error; //{"Response":"False","Error":"Something went wrong."}
+    private String error;
 
     public void addRate(RateDto rate) {
         if (ratings != null)

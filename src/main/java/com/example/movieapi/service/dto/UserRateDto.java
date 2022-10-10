@@ -4,11 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.math.BigInteger;
 
 /**
  * @author Mahdi Sharifi
@@ -20,7 +17,8 @@ import java.time.LocalDateTime;
  * "Value": "8.0/10"
  * },
  */
-@Data @Builder
+@Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRateDto {
 
@@ -37,7 +35,7 @@ public class UserRateDto {
     private String title;
 
     @JsonProperty("box_office")
-    private Long boxOffice;
+    private BigInteger boxOffice;
 
     private String url;
 }

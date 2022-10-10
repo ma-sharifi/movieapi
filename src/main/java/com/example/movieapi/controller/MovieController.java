@@ -10,10 +10,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -30,8 +30,8 @@ public interface MovieController {
             @ApiResponse(responseCode = "400", description = "Invalid Request.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Movie this this title not found", content = @Content)})
     @Operation(summary = "find and return a movie by title if it won Best Picture oscar")
-    ResponseEntity< ResponseDto<OmdbResponseDto>> getMovieWonOscar(
-            @Parameter(description = "Movie title for checking if it won Best Picture oscar" ,example = "The Hurt Locker")
+    ResponseEntity<ResponseDto<OmdbResponseDto>> getMovieWonOscar(
+            @Parameter(description = "Movie title for checking if it won Best Picture oscar", example = "The Hurt Locker")
             @Valid @RequestParam("title") @NotNull(message = "#title is required") String title);
 
     @ApiResponses(value = {
@@ -40,8 +40,8 @@ public interface MovieController {
             @ApiResponse(responseCode = "400", description = "Invalid Request.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Movie this this title not found", content = @Content)})
     @Operation(summary = "Get Rate and name of move from user, then find the movie by title on Omdb API then save movie info alongside the rate")
-    ResponseEntity< ResponseDto<UserRateDto>> rateByTitle(
-            @Parameter(description = "rate is the rat that user give to this movie , title is the title of movie",example = "The Hurt Locker")
+    ResponseEntity<ResponseDto<UserRateDto>> rateByTitle(
+            @Parameter(description = "rate is the rat that user give to this movie , title is the title of movie", example = "The Hurt Locker")
             @Valid @RequestBody RequestDto requestDto);
 
     @ApiResponses(value = {
@@ -51,7 +51,7 @@ public interface MovieController {
             @ApiResponse(responseCode = "404", description = "Movie with this imdbId not found", content = @Content)})
     @Operation(summary = "find and return a movie by imdbID")
     ResponseEntity<ResponseDto<OmdbResponseDto>> getMovieFromOmdbApi(
-            @Parameter(description = "ImdbId for finding movie base on that",example = "tt0887912")
+            @Parameter(description = "ImdbId for finding movie base on that", example = "tt0887912")
             @Valid @PathVariable("imdb-id") String imdbId);
 
     @ApiResponses(value = {

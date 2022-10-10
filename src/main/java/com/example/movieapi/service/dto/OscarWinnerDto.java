@@ -1,25 +1,25 @@
 package com.example.movieapi.service.dto;
 
-import com.example.movieapi.util.serializer.GSONModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * @author Mahdi Sharifi
  * @since 10/4/22
  */
-@EqualsAndHashCode(callSuper = true)
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OscarWinnerDto extends GSONModel {
+public class OscarWinnerDto {
 
-        private LocalDate year;
-        private String category;
-        private String nominee;
-        private String additionalInfo;
-        private Boolean won;
+    private LocalDate year;
+    private String category;
+    private String nominee;
+    private String additionalInfo;
+    private Boolean won;
 }

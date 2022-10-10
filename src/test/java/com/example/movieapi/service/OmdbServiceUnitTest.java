@@ -31,6 +31,65 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @SpringBootTest
 class OmdbServiceUnitTest {
 
+    @Autowired
+    private OmdbService omdbService;
+    @Autowired
+    private RestTemplate restTemplate;
+    private MockRestServiceServer mockServer;
+    @Value("${omdbapi.url}")
+    private String url;
+    @Value("${omdbapi.apikey}")
+    private String apiKey;
+
+    @BeforeEach
+    public void init() {
+        mockServer = MockRestServiceServer.createServer(restTemplate);
+    }
+
+    @Test
+    void shouldReturnMockedMovie_whenGetSingleMovieByTitleIsCalled() throws Exception {
+        mockServer
+                .expect(ExpectedCount.once(), requestTo(new URI(url + "?t=Black%20Swan&apiKey=" + apiKey)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Black_Swan)
+                );
+
+        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByTitle("Black Swan");
+        mockServer.verify();//Verify all expectations met
+        omdbResponseDtoOptional.ifPresent(result ->
+        {
+            assertEquals("Black Swan", omdbResponseDtoOptional.get().getTitle());
+            assertEquals("2010", omdbResponseDtoOptional.get().getYear());
+            assertEquals("tt0947798", omdbResponseDtoOptional.get().getImdbID());
+            assertEquals("Darren Aronofsky", omdbResponseDtoOptional.get().getDirector());
+            assertEquals("Won 1 Oscar. 97 wins & 280 nominations total", omdbResponseDtoOptional.get().getAwards());
+        });
+    }
+
+    @Test
+    void shouldReturnMockedMovie_whenGetSingleMovieByOmdbIsCalled() throws Exception {
+        mockServer
+                .expect(ExpectedCount.once(), requestTo(new URI(url + "?i=tt0947798&apiKey=" + apiKey)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Black_Swan)
+                );
+
+        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByImdbId("tt0947798");
+        mockServer.verify();//Verify all expectations met
+        omdbResponseDtoOptional.ifPresent(result ->
+        {
+            assertEquals("Black Swan", omdbResponseDtoOptional.get().getTitle());
+            assertEquals("2010", omdbResponseDtoOptional.get().getYear());
+            assertEquals("tt0947798", omdbResponseDtoOptional.get().getImdbID());
+            assertEquals("Darren Aronofsky", omdbResponseDtoOptional.get().getDirector());
+            assertEquals("Won 1 Oscar. 97 wins & 280 nominations total", omdbResponseDtoOptional.get().getAwards());
+        });
+    }
+
     String Black_Swan =
             "{\n" +
                     "  \"Title\": \"Black Swan\",\n" +
@@ -72,42 +131,6 @@ class OmdbServiceUnitTest {
                     "  \"Website\": \"N/A\",\n" +
                     "  \"Response\": \"True\"\n" +
                     "}";
-    @Autowired
-    private OmdbService omdbService;
-    @Autowired
-    private RestTemplate restTemplate;
-    private MockRestServiceServer mockServer;
-    @Value("${omdbapi.url}")
-    private String url;
-    @Value("${omdbapi.apikey}")
-    private String apiKey;
-
-    @BeforeEach
-    public void init() {
-        mockServer = MockRestServiceServer.createServer(restTemplate);
-    }
-
-    @Test
-    void givenMockingIsDoneByMockRestServiceServer_whenGetIsCalled_thenReturnsMockedObject() throws Exception {
-        mockServer
-                .expect(ExpectedCount.once(), requestTo(new URI(url + "?t=Black%20Swan&apiKey=" + apiKey)))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(Black_Swan)
-                );
-
-        Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByTitle("Black Swan");
-        mockServer.verify();//Verify all expectations met
-        omdbResponseDtoOptional.ifPresent(result ->
-        {
-            assertEquals("Black Swan", omdbResponseDtoOptional.get().getTitle());
-            assertEquals("2010", omdbResponseDtoOptional.get().getYear());
-            assertEquals("tt0947798", omdbResponseDtoOptional.get().getImdbID());
-            assertEquals("Darren Aronofsky", omdbResponseDtoOptional.get().getDirector());
-            assertEquals("Won 1 Oscar. 97 wins & 280 nominations total", omdbResponseDtoOptional.get().getAwards());
-        });
-    }
 
 //    @Test
 //    void should_return_singleMovieByTitle() {

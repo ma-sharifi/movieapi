@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 
 @Slf4j
-public class JWTAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER = "Bearer ";
@@ -29,7 +29,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            if (checkJwtTokenHeader(request, response)) {
+            if (checkJwtTokenHeader(request)) {
                 Claims claims = JwtTokenUtil.validateToken(request.getHeader(AUTHORIZATION_HEADER).replace(BEARER, "").trim());
                 if (claims.get("authorities") != null) {
                     setUpSpringAuthentication(claims);
@@ -43,7 +43,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-            return;
         }
     }
 
@@ -63,11 +62,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     }
 
-    private boolean checkJwtTokenHeader(HttpServletRequest request, HttpServletResponse res) {
+    private boolean checkJwtTokenHeader(HttpServletRequest request) {
         String authenticationHeader = request.getHeader(AUTHORIZATION_HEADER);
-        if (authenticationHeader == null || !authenticationHeader.startsWith(BEARER))
-            return false;
-        return true;
+        return authenticationHeader != null && authenticationHeader.startsWith(BEARER);
     }
 
 }

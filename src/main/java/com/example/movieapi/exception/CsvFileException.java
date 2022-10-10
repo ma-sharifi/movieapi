@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 public class CsvFileException extends AbstractThrowable {
 
     public CsvFileException() {
-        super("There is an error in Csv File!", HttpStatus.INTERNAL_SERVER_ERROR,5002);
+        super("There is an error in Csv File!", HttpStatus.INTERNAL_SERVER_ERROR, 5002);
     }
 
 }

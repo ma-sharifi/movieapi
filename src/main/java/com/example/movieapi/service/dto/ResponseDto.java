@@ -35,7 +35,7 @@ public class ResponseDto<T> {
     private Map<String, Object> parameters;
 
     @JsonIgnore
-    private transient HttpStatus httpStatus;
+    private HttpStatus httpStatus;
 
     private List<T> payload=new ArrayList<>();
 }

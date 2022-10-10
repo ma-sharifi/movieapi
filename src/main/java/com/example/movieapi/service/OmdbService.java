@@ -5,15 +5,10 @@ import com.example.movieapi.service.dto.OmdbResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author Mahdi Sharifi
@@ -35,7 +30,7 @@ public class OmdbService {
     public Optional<OmdbResponseDto> getSingleMovieByTitle(String title) {
         Optional<OmdbResponseDto> dtoOptional;
         try {
-            dtoOptional=Optional.ofNullable(restTemplate.getForEntity(url + "/?t={title}&apiKey={apiKey}", OmdbResponseDto.class, title, apiKey).getBody());
+            dtoOptional = Optional.ofNullable(restTemplate.getForEntity(url + "/?t={title}&apiKey={apiKey}", OmdbResponseDto.class, title, apiKey).getBody());
         } catch (Exception ex) {
             throw new OmdbApiException();
         }
@@ -45,7 +40,7 @@ public class OmdbService {
     public Optional<OmdbResponseDto> getSingleMovieByImdbId(String imdbId) {
         Optional<OmdbResponseDto> dtoOptional;
         try {
-            dtoOptional= Optional.ofNullable(restTemplate.getForEntity(url + "/?i={imdbId}&apiKey={apiKey}", OmdbResponseDto.class, imdbId, apiKey).getBody());
+            dtoOptional = Optional.ofNullable(restTemplate.getForEntity(url + "/?i={imdbId}&apiKey={apiKey}", OmdbResponseDto.class, imdbId, apiKey).getBody());
         } catch (Exception ex) {
             throw new OmdbApiException();
         }

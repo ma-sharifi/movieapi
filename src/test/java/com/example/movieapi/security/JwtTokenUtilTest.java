@@ -1,0 +1,31 @@
+package com.example.movieapi.security;
+
+import com.example.movieapi.service.dto.UserDto;
+import com.google.gson.Gson;
+import io.jsonwebtoken.Claims;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * @author Mahdi Sharifi
+ * @since 10/10/22
+ */
+class JwtTokenUtilTest {
+
+    @Test
+    void validateToken() {
+        String JWT="Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTM2MjMyMSwiZXhwIjoxNjY3OTU3OTIxfQ.6ZUM8FxUzzxX500ZF9498lMkowaWEjnyGgMFfTzJyJos7lhexru0zgvVzGXy88aS0BJXso_46oGI9flhuXiflA";
+        Claims claims = JwtTokenUtil.validateToken(JWT.replace("Bearer ","").trim());
+        assertNotNull(claims.get("authorities"));
+    }
+
+    @Test
+    void issueJwtToken() {
+        String jwtToken = JwtTokenUtil.issueJwtToken("mahdi");
+        assertNotNull(jwtToken);
+
+        Claims claims = JwtTokenUtil.validateToken(jwtToken.replace("Bearer ","").trim());
+        assertNotNull(claims.get("authorities"));
+    }
+}

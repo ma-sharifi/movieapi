@@ -37,7 +37,6 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -55,14 +54,7 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${openapi.version}</version>
 		</dependency>
-<!--		&lt;!&ndash; Swagger UI &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springdoc</groupId>-->
-<!--			<artifactId>springdoc-openapi-ui</artifactId>-->
-<!--			<version>1.2.32</version>-->
-<!--		</dependency>-->
 
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
@@ -93,63 +85,17 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>io.jsonwebtoken</groupId>-->
-<!--			<artifactId>jjwt-api</artifactId>-->
-<!--			<version>${jjwt-api.version}</version>-->
-<!--		</dependency>-->
-
-
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>${jwt.version}</version>
 		</dependency>
 
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.mockito/mockito-core &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.mockito</groupId>-->
-<!--			<artifactId>mockito-core</artifactId>-->
-<!--		</dependency>-->
-
-
-		<!--		&lt;!&ndash; https://mvnrepository.com/artifact/au.com.dius/pact-jvm-consumer-junit5 &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>au.com.dius</groupId>-->
-<!--			<artifactId>pact-jvm-consumer-junit5</artifactId>-->
-<!--			<version>4.0.10</version>-->
-<!--		</dependency>-->
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-contract-maven-plugin &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-contract-maven-plugin</artifactId>-->
-<!--			<version>${spring.cloud.contract.version}</version>-->
-<!--		</dependency>-->
-
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-contract-verifier &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-contract-verifier</artifactId>-->
-<!--			<version>${spring.cloud.contract.version}</version>-->
-<!--		</dependency>-->
-
-
 	</dependencies>
 
 	<build>
 		<finalName>movieapi</finalName>
 		<plugins>
-
-<!--			<plugin>-->
-<!--				<groupId>org.springframework.cloud</groupId>-->
-<!--				<artifactId>spring-cloud-contract-maven-plugin</artifactId>-->
-<!--				<version>${spring.cloud.contract.version}</version>-->
-<!--				<extensions>true</extensions>-->
-<!--				<configuration>-->
-<!--					<baseClassForTests>hello.BaseClass</baseClassForTests>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

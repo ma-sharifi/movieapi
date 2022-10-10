@@ -25,6 +25,26 @@ public class DataLoader implements CommandLineRunner {
 
     private final UserRateRepository userRateRepository;
 
+    private final List<UserRate> list=List.of(new UserRate(
+            new UserMovieId("tt0947798","mahdi"),0,"Black Swan",0L)
+            ,new UserRate(new UserMovieId("tt0299658","mahdi"),1,"Chicago",1L)
+            ,new UserRate(new UserMovieId("tt1375666","mahdi"),2,"Inception",2L)
+            ,new UserRate(new UserMovieId("tt1504320","mahdi"),3,"The King's Speech",3L)
+            ,new UserRate(new UserMovieId("tt1542344","mahdi"),4,"127 Hours",4L)
+            ,new UserRate(new UserMovieId("tt0268978","mahdi"),5,"A Beautiful Mind",5L)
+            ,new UserRate(new UserMovieId("tt0268978","ali"),10,"A Beautiful Mind",5L)
+            ,new UserRate(new UserMovieId("tt0119217","mahdi"),6,"Good Will Hunting",6L)
+            ,new UserRate(new UserMovieId("tt1014759","mahdi"),7,"Alice in Wonderland",7L)
+            ,new UserRate(new UserMovieId("tt0371746","mahdi"),8,"Iron Man",8L)
+            ,new UserRate(new UserMovieId("tt0887912","mahdi"),9,"The Hurt Locker",9L)
+            ,new UserRate(new UserMovieId("tt0405159","mahdi"),10,"Million Dollar Baby",10L)
+            ,new UserRate(new UserMovieId("tt0405159","mahdi"),10,"Million Dollar Baby",10L)
+            ,new UserRate(new UserMovieId("tt0077869","mahdi"),10,"The Lord of the Rings",11L)
+            ,new UserRate(new UserMovieId("tt0120689","mahdi"),10,"The Green Mile",12L)
+            ,new UserRate(new UserMovieId("tt0120689","ali"),10,"The Green Mile",12L)
+            ,new UserRate(new UserMovieId("tt0120689","Hasan"),10,"The Green Mile",12L)
+    );
+
     public DataLoader(Environment environment, OscarWinnerCsvService oscarWinnerService, UserRateRepository userRateRepository) {
         this.environment = environment;
         this.oscarWinnerService = oscarWinnerService;
@@ -64,20 +84,7 @@ public class DataLoader implements CommandLineRunner {
 //        ,new UserRate(new UserMovieId("tt0119217","mahdi"),9,"Good Will Hunting",138433435L)
 //                );
 
-        List<UserRate> list=List.of(new UserRate(new UserMovieId("tt0947798","mahdi"),8,"Black Swan",1L)
-                ,new UserRate(new UserMovieId("tt1375666","mahdi"),9,"Inception",2L)
-                ,new UserRate(new UserMovieId("tt1504320","mahdi"),7,"The King's Speech",3L)
-                ,new UserRate(new UserMovieId("tt1542344","mahdi"),6,"127 Hours",4L)
-                ,new UserRate(new UserMovieId("tt1014759","mahdi"),7,"Alice in Wonderland",5L)
-                ,new UserRate(new UserMovieId("tt0371746","mahdi"),7,"Iron Man",6L)
-                ,new UserRate(new UserMovieId("tt0887912","mahdi"),7,"The Hurt Locker",7L)
-                ,new UserRate(new UserMovieId("tt0405159","mahdi"),10,"Million Dollar Baby",8L)
-                ,new UserRate(new UserMovieId("tt0077869","mahdi"),10,"The Lord of the Rings",9L)
-                ,new UserRate(new UserMovieId("tt0120689","mahdi"),10,"The Green Mile",10L)
-                ,new UserRate(new UserMovieId("tt0299658","mahdi"),6,"Chicago",1L)
-                ,new UserRate(new UserMovieId("tt0268978","mahdi"),9,"A Beautiful Mind",2L)
-                ,new UserRate(new UserMovieId("tt0119217","mahdi"),9,"Good Will Hunting",3L)
-        );
+
 
 
         userRateRepository.saveAll(list);

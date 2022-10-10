@@ -46,7 +46,7 @@ public class MovieControllerImpl implements MovieController {
     public ResponseEntity< ResponseDto<OmdbResponseDto>> getMovieWonOscar(
             @Valid @RequestParam("title") @NotNull(message = "#title is required") String title) {
         log.debug("#call getMovieWonOscar title: " + title);
-        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto();
+        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto<>();
         OmdbResponseDto omdbResponseDto = movieService.isWonOscar(title);
         responseDto.setPayload(List.of(omdbResponseDto));
         return ResponseEntity.ok(responseDto);//TODO
@@ -54,8 +54,8 @@ public class MovieControllerImpl implements MovieController {
 
     @PostMapping(value = "/rate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity< ResponseDto<UserRateDto>> rateByTitle(@Valid @RequestBody RequestDto requestDto) {
-        ResponseDto<UserRateDto> responseDto = new ResponseDto();
-        UserRateDto userRate = movieService.rateByTitle(requestDto.getTitle(), requestDto.getRate(), authenticationFacade.getAuthentication().getName()); //TODO change title
+        ResponseDto<UserRateDto> responseDto = new ResponseDto<>();
+        UserRateDto userRate = movieService.rateByTitle(requestDto.getTitle(), requestDto.getRate(), authenticationFacade.getAuthentication().getName());
         if (userRate != null)
             responseDto.setPayload(List.of(userRate));
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
@@ -63,7 +63,7 @@ public class MovieControllerImpl implements MovieController {
 
     @GetMapping(value = "/top-ten") //
     public ResponseEntity<ResponseDto<UserRateDto>> getTopTenMove() {
-        ResponseDto<UserRateDto> responseDto = new ResponseDto();
+        ResponseDto<UserRateDto> responseDto = new ResponseDto<>();
         responseDto.setPayload(movieService.findTopTen());
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
@@ -72,7 +72,7 @@ public class MovieControllerImpl implements MovieController {
     public ResponseEntity< ResponseDto<OmdbResponseDto>> getMovieFromOmdbApi(
             @Valid @PathVariable("imdb-id") String imdbId) {//tt1375666 , tt0947798
         log.debug("#call getMovieByFromOmdbApi imdbId: " + imdbId);
-        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto();
+        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto<>();
         Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByImdbId(imdbId);
         omdbResponseDtoOptional.ifPresent(omdbResponseDto -> responseDto.setPayload(List.of(omdbResponseDto)));
         return ResponseEntity.ok(responseDto);

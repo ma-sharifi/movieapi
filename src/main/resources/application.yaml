@@ -13,6 +13,7 @@ springdoc:
   api-docs:
     path : /javainuse-openapi
 
+
 spring:
   application:
     name: movieapi
@@ -28,6 +29,16 @@ spring:
     console.settings.trace: false
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+security:
+  basic:
+    enabled: true
+    authorize-mode: NONE
 
 omdbapi:
   url: http://www.omdbapi.com/

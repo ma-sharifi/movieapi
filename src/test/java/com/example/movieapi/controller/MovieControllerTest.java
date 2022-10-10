@@ -8,14 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -31,9 +27,10 @@ public class MovieControllerTest {
 
     private static final String DEFAULT_TITLE = "Black Swan";
     private static final String ENTITY_API_URL = "/v1/movies";
-    private static final String WON_URL = ENTITY_API_URL+"/won";
-    private static final String RATE_URL = ENTITY_API_URL+"/rate";
-    private static final String TOP_TEN_URL = ENTITY_API_URL+"/top-ten";
+    private static final String WON_URL = ENTITY_API_URL + "/won";
+    private static final String RATE_URL = ENTITY_API_URL + "/rate";
+    private static final String TOP_TEN_URL = ENTITY_API_URL + "/top-ten";
+    private static final String JWT = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTM1Nzk3OCwiZXhwIjoxNjY1NDU1ODk4fQ.QUMjGkfGUG3w2OjD_AT80RR2ADgelRFHs1Xk6PJSMmVebI0beJ4ced3HxlNWmwqrQrSkBhbqsV2jANUxj3w-Iw";
 
     @Autowired
     private UserRateRepository userRateRepository;
@@ -58,13 +55,14 @@ public class MovieControllerTest {
     public void initTest() {
         userRate = createEntity();
     }
-//
+
+    //
     @Test
     void shouldReturnMovieInfo_whenMovieWonOscarIsCalledByTitle() throws Exception {
         mockMvc
                 .perform(
-                        get(WON_URL+"?title=The Hurt Locker"))//Black Swan
-//                                .header("Authorization", JWT))
+                        get(WON_URL + "?title=The Hurt Locker")//Black Swan
+                                .header("Authorization", JWT))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.payload[0].Title").value("The Hurt Locker"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.payload[0].Year").value("2008"))
@@ -98,8 +96,8 @@ public class MovieControllerTest {
     void shouldReturnThrowNotFoundException_whenNotWon() throws Exception {
         mockMvc
                 .perform(
-                        get(WON_URL + "/won?title=Black Swan"))
-//                                .header("Authorization", JWT))
+                        get(WON_URL + "/won?title=Black Swan")
+                                .header("Authorization", JWT))
                 .andExpect(status().isNotFound());
         // TODO
     }

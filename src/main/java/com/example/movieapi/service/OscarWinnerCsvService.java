@@ -41,8 +41,8 @@ public class OscarWinnerCsvService {
     public void loadOscarWinners() throws IOException {
         Reader in = new FileReader(oscarWinnerFile);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord().parse(in);
-        for (CSVRecord record : records) {
-            oscarWinners.add(toOscarWinnerDto(record));
+        for (CSVRecord csvRecord : records) {
+            oscarWinners.add(toOscarWinnerDto(csvRecord));
         }
     }
 
