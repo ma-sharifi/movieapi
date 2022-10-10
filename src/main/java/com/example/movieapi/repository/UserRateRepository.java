@@ -17,9 +17,10 @@ import java.util.List;
 public interface UserRateRepository extends CrudRepository<UserRate, UserMovieId> {
 
     @Query(
-            value =" SELECT IMDB_ID, TITLE,  BOX_OFFICE, avg(cast(RATE as double)) as AVG_RATE " +
+            value =" SELECT IMDB_ID, TITLE,  BOX_OFFICE, AVG(CAST(RATE as double)) as AVG_RATE " +
                     "    FROM user_rate " +
-                    "    GROUP BY IMDB_ID " +
+                    "    GROUP BY IMDB_ID" +
+                    "     , BOX_OFFICE , title" +
                     "    HAVING AVG(CAST(rate as double))>0 " +
                     "    ORDER BY  AVG(rate) DESC,  BOX_OFFICE DESC, BOX_OFFICE DESC limit 10",
             nativeQuery = true)

@@ -41,7 +41,7 @@ public class UserRateService {
 
     public UserRateDto findOne(UserMovieId id) {
         Optional<UserRate> userRateOptional = repository.findById(id);
-        return userRateOptional.map(userRateMapper::toDto).orElseThrow(() -> new MovieNotFoundException(id));
+        return userRateOptional.map(userRateMapper::toDto).orElseThrow(() -> new MovieNotFoundException(id.getImdbId()));
     }
 
     public List<UserRateDto> findTopTenOrderedByBoxOffice() {

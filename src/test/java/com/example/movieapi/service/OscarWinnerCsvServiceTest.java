@@ -1,5 +1,9 @@
 package com.example.movieapi.service;
 
+import com.example.movieapi.entity.UserMovieId;
+import com.example.movieapi.exception.MovieNotFoundException;
+import com.example.movieapi.service.dto.OscarWinnerCsvDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,13 +32,24 @@ class OscarWinnerCsvServiceTest {
 
     @Test
     void Should_ReturnTrue_When_MovieWon() {
-        assertTrue(oscarWinnerService.isWonByTitleForBestPicture("The Hurt Locker"));
-        assertTrue(oscarWinnerService.isWonByTitleForBestPicture("Slumdog Millionaire"));
+        assertTrue(oscarWinnerService.findMovieByTitleAndCategory("The Hurt Locker").getWon());
+        assertTrue(oscarWinnerService.findMovieByTitleAndCategory("Slumdog Millionaire").getWon());
     }
     @Test
+    void ShouldThrowMovieNotFoundException_When_MovieIsNotInCsvFile() {
+
+        MovieNotFoundException thrown = Assertions.assertThrows(MovieNotFoundException.class, () -> {
+            // Act
+            oscarWinnerService.findMovieByTitleAndCategory("Hello Mahdi");
+        });
+        // Assert
+        assertTrue(thrown.getMessage().contains("not find movie with"));
+
+    }
+
+    @Test
     void Should_ReturnFalse_When_MovieNotWin() {
-        assertFalse(oscarWinnerService.isWonByTitleForBestPicture("Iron Man"));
-        assertFalse(oscarWinnerService.isWonByTitleForBestPicture("Black Swan"));
+        assertFalse(oscarWinnerService.findMovieByTitleAndCategory("Black Swan").getWon());
     }
 
     @Test

@@ -31,11 +31,11 @@ public class DataLoader implements CommandLineRunner {
             ,new UserRate(new UserMovieId("tt1375666","mahdi"),2,"Inception",2L)
             ,new UserRate(new UserMovieId("tt1504320","mahdi"),3,"The King's Speech",3L)
             ,new UserRate(new UserMovieId("tt1542344","mahdi"),4,"127 Hours",4L)
-            ,new UserRate(new UserMovieId("tt0268978","mahdi"),5,"A Beautiful Mind",5L)
+            ,new UserRate(new UserMovieId("tt0268978","mahdi"),8,"A Beautiful Mind",5L)
             ,new UserRate(new UserMovieId("tt0268978","ali"),10,"A Beautiful Mind",5L)
-            ,new UserRate(new UserMovieId("tt0119217","mahdi"),6,"Good Will Hunting",6L)
+            ,new UserRate(new UserMovieId("tt0119217","mahdi"),7,"Good Will Hunting",6L)
             ,new UserRate(new UserMovieId("tt1014759","mahdi"),7,"Alice in Wonderland",7L)
-            ,new UserRate(new UserMovieId("tt0371746","mahdi"),8,"Iron Man",8L)
+            ,new UserRate(new UserMovieId("tt0371746","mahdi"),9,"Iron Man",8L)
             ,new UserRate(new UserMovieId("tt0887912","mahdi"),9,"The Hurt Locker",9L)
             ,new UserRate(new UserMovieId("tt0405159","mahdi"),10,"Million Dollar Baby",10L)
             ,new UserRate(new UserMovieId("tt0405159","mahdi"),10,"Million Dollar Baby",10L)
@@ -64,7 +64,7 @@ public class DataLoader implements CommandLineRunner {
     public void loadData() {
         try {
             oscarWinnerService.loadOscarWinners();
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Exception while loading data from CSV file");
         }
 

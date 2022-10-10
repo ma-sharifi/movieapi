@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OscarWinnerDto {
+public class OscarWinnerCsvDto {
 
     private LocalDate year;
     private String category;

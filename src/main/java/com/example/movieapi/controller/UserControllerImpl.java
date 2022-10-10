@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("v1/user")
+@RequestMapping("v1/users")
 @Tag(name = "User-controller for issuing JWT token", description = "Issue token based on username")
 @Slf4j
 public class UserControllerImpl implements UserController {

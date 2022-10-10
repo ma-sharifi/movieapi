@@ -28,4 +28,20 @@ class UserRateTest {
         assertEquals(id, userRate.getId());
     }
 
+    @Test
+    void shouldReturnTrue_WhenEqualIsCalled() {
+        String title = "Black Swan";
+        UserMovieId id=new UserMovieId("tt1375666","test-user");
+        UserMovieId id2=new UserMovieId("tt1375666","test-user");
+        userRate.setTitle(title);
+        userRate.setId(id);
+        userRate.setBoxOffice(1L);
+        UserRate userRate2=new UserRate(id2,10,"Black Swan",1L);
+
+        assertEquals(userRate2, userRate);
+        assertEquals(userRate2.hashCode(), userRate.hashCode());
+
+    }
+
+
 }

@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class OmdbApiException extends AbstractThrowable {
 
-    public OmdbApiException() {
-        super("There is an error in calling Omdb API!", HttpStatus.INTERNAL_SERVER_ERROR,5001);
+    public OmdbApiException(String cause) {
+        super("There is an error in calling Omdb API! Cause: "+cause, HttpStatus.INTERNAL_SERVER_ERROR,5001);
     }
 
 }

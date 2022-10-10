@@ -3,6 +3,10 @@ A REST API application to get movie information from multiple data source Omdb A
 User send a movie's title then application check the CSV file whether this movie is a winner of the Best Picture Oscar or not.
 After we found movie won the Best Picture Oscar awards we will fetch its data by title from Omdb API and show them to user.
 
+Defiened different Exception for different situation.
+
+Use link into top-ten json, instead call Omdb for each movie;
+
 All APIs protect by Jwt token.
 also users should have a JWT token (describe in `how_to_test.md`) to use RESTful services , 
 application currently integrate two data source CSV file (contains oscar's candidates) 

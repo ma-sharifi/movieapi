@@ -16,4 +16,14 @@ Welcome to Movie API.
 ## Swagger:
  > http://localhost:8080/swagger-ui/index.html
 
+## Movie API Diagram
+![data-flow](https://user-images.githubusercontent.com/8404721/194955295-3e279b9d-ccd0-4b51-81dc-ef69c99fd616.jpg)
 
+* Note: for Top-Ten rated by Movie API website, in response you will see the link of movie not the movie. If you need you can use this link to get the movie.
+        It helps us to don't communicate a lot with Omdb server (external server).
+
+* Omdb API, does not response a different Http status for error. Instead it returns
+```json
+{"Response":"False","Error":"Something went wrong."}
+```
+For checking error must read the response body, then check field Response.

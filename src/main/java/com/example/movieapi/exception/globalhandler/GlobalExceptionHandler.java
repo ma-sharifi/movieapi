@@ -4,6 +4,7 @@ import com.example.movieapi.exception.*;
 import com.example.movieapi.service.dto.ResponseDto;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,19 +20,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = {AuthenticationException.class})
-    @ResponseBody
-    public ResponseEntity<ResponseDto<Void>> handleAuthenticationException(AuthenticationException ex) {
-        log.debug("#handleAuthenticationException: " + ex.getMessage());
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<ResponseDto<Void>> handleUnhandledException(Exception ex) {
+        log.error("#Unhandled exception occurred: " + ex.getMessage());
         ResponseDto<Void> responseDto = new ResponseDto<>();
-        responseDto.setHttpStatus(ex.getHttpStatus());
-
-        responseDto.setErrorCode(ex.getErrorCode());
+        responseDto.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        responseDto.setErrorCode(500);
+        responseDto.setMessage("Internal server occurred. please refer to log files.");
         return ResponseEntity.status(responseDto.getHttpStatus()).body(responseDto);
     }
 
     @ExceptionHandler(value = {CsvFileException.class, OmdbApiException.class,
-            BadRequestAlertException.class, MovieNotFoundException.class})
+            BadRequestAlertException.class, MovieNotFoundException.class,MovieWasNotWonException.class})
     public ResponseEntity<ResponseDto<Void>> handleException(AbstractThrowable ex) {
         return ResponseEntity.status(ex.getHttpStatus()).body(toDto(ex));
     }

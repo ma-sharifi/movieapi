@@ -9,6 +9,7 @@ import com.example.movieapi.service.OmdbService;
 import com.example.movieapi.service.OscarWinnerCsvService;
 import com.example.movieapi.service.UserRateService;
 import com.example.movieapi.service.dto.OmdbResponseDto;
+import com.example.movieapi.service.dto.OscarWinnerCsvDto;
 import com.example.movieapi.service.dto.UserRateDto;
 import com.example.movieapi.service.mapper.UserRateMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -49,23 +50,23 @@ public class MovieServiceImpl implements MovieService {
      * @return
      */
     @Override
-    public OmdbResponseDto isWonOscar(String title) throws MovieNotFoundException {
-        Optional<OmdbResponseDto> responseDtoOptional = Optional.empty();
-        boolean isWon = winnerCsvService.isWonByTitleForBestPicture(title);
-        if (isWon) {
+    public OmdbResponseDto isWonOscar(String title) throws MovieNotFoundException, MovieWasNotWonException {
+        Optional<OmdbResponseDto> responseDtoOptional;
+        OscarWinnerCsvDto oscarWinnerCsvDto = winnerCsvService.findMovieByTitleAndCategory(title);
+        if (oscarWinnerCsvDto.getWon()) {
             // look up movie on API
             responseDtoOptional = omdbService.getSingleMovieByTitle(title);
             responseDtoOptional.ifPresent(movie -> movie.setWonBestPicture(true));
+            return responseDtoOptional.orElseThrow(() -> new MovieNotFoundException(" Omdb says: "+title));
         } else
             throw new MovieWasNotWonException(title);
-        return responseDtoOptional.orElseThrow(() -> new MovieNotFoundException(title));
     }
 
     @Override
     public UserRateDto rateByTitle(String title, int rate, String user) throws MovieNotFoundException {
         Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByTitle(title);
-        UserRate userRate = null;
-        UserRateDto result = null;
+        UserRate userRate;
+        UserRateDto result;
         if (omdbResponseDtoOptional.isPresent()) {
             OmdbResponseDto omdbResponseDto = omdbResponseDtoOptional.get();
             long boxOffice = Long.parseLong(omdbResponseDto.getBoxOffice().replace("$", "").replace(",", ""));

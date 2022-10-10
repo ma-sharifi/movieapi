@@ -46,10 +46,9 @@ public class MovieControllerImpl implements MovieController {
     public ResponseEntity< ResponseDto<OmdbResponseDto>> getMovieWonOscar(
             @Valid @RequestParam("title") @NotNull(message = "#title is required") String title) {
         log.debug("#call getMovieWonOscar title: " + title);
-        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto<>();
         OmdbResponseDto omdbResponseDto = movieService.isWonOscar(title);
-        responseDto.setPayload(List.of(omdbResponseDto));
-        return ResponseEntity.ok(responseDto);//TODO
+        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto<>(List.of(omdbResponseDto));
+        return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping(value = "/rate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

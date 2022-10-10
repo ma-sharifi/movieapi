@@ -1,6 +1,7 @@
 package com.example.movieapi.service;
 
-import com.example.movieapi.service.dto.OscarWinnerDto;
+import com.example.movieapi.exception.MovieNotFoundException;
+import com.example.movieapi.service.dto.OscarWinnerCsvDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -32,32 +33,30 @@ public class OscarWinnerCsvService {
 
     private final File oscarWinnerFile;
 
-    private final List<OscarWinnerDto> oscarWinners = new ArrayList<>();
+    private final List<OscarWinnerCsvDto> oscarWinners = new ArrayList<>();
 
     public OscarWinnerCsvService(File oscarWinnerFile) {
             this.oscarWinnerFile=oscarWinnerFile;
     }
 
     public void loadOscarWinners() throws IOException {
-        Reader in = new FileReader(oscarWinnerFile);
+            Reader in = new FileReader(oscarWinnerFile);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord().parse(in);
         for (CSVRecord csvRecord : records) {
             oscarWinners.add(toOscarWinnerDto(csvRecord));
         }
     }
 
-    public Boolean isWonByTitleForBestPicture(String title) {
-        Optional<OscarWinnerDto> oscarWinnerDtoOptional=oscarWinners.stream()
-                .filter(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY))).findFirst();
+    public OscarWinnerCsvDto findMovieByTitleAndCategory(String title) {
+        Optional<OscarWinnerCsvDto> oscarWinnerDtoOptional=oscarWinners.stream()
+                .filter(movie -> (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY))).findFirst();
         if(oscarWinnerDtoOptional.isPresent())
             log.debug("###title: "+title+" ;WON; "+oscarWinnerDtoOptional.get());
         else  log.debug("###title: "+title+" ;LOOS");
-
-        return oscarWinners.stream()
-                .anyMatch(movie -> movie.getWon() && (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY)));
+        return oscarWinnerDtoOptional.orElseThrow(() -> new MovieNotFoundException(title+" ;Based on CSV file"));
     }
 
-    public List<OscarWinnerDto> findByTitle(String title){
+    public List<OscarWinnerCsvDto> findByTitle(String title){
         return oscarWinners.stream().filter(movie ->  (movie.getNominee().contains(title))).collect(Collectors.toList());
     }
 
@@ -65,8 +64,8 @@ public class OscarWinnerCsvService {
         return oscarWinners.size();
     }
 
-    private OscarWinnerDto toOscarWinnerDto(CSVRecord csvRecord) {
-        OscarWinnerDto dto=new OscarWinnerDto();
+    private OscarWinnerCsvDto toOscarWinnerDto(CSVRecord csvRecord) {
+        OscarWinnerCsvDto dto=new OscarWinnerCsvDto();
         dto.setYear(toYear(csvRecord));
         dto.setCategory(csvRecord.get("Category"));
         dto.setNominee(csvRecord.get("Nominee"));

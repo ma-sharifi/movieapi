@@ -5,14 +5,17 @@ import com.example.movieapi.security.JwtTokenUtil;
 import com.example.movieapi.service.dto.UserDto;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -22,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -38,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
    @Test
     void shouldReturnTokenAndUser_whenLoginIsCalled() throws Exception {
 
-       MvcResult result =mockMvc.perform( MockMvcRequestBuilders.post("/v1/user/login?username=mahdi")
+       MvcResult result =mockMvc.perform( MockMvcRequestBuilders.post("/v1/users/login?username=mahdi")
                        .accept(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(MockMvcResultMatchers.jsonPath("$.user").value("mahdi"))
@@ -50,4 +54,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        assertNotNull(claims.get("authorities"));
 
    }
+//    @SneakyThrows
+//    @Test
+//    @WithMockUser(username = "mahdi",password = "mahdi",roles = {"ROLE_USER"})
+//    void updatePassword() {
+//        mockMvc.perform( MockMvcRequestBuilders.post("/v1/user/login?username=mahdi")
+//                        .contentType(MediaType.APPLICATION_JSON))
+////                        .content("{\n" +
+////                                "  \"newPassword\": \"12345\",\n" +
+////                                "  \"oldPassword\": \"12345\"\n" +
+////                                "}"))
+//                .andExpect(ResultMatcher.matchAll(status().isOk()))
+//                .andDo(print());
+//    }
+
+
 }
