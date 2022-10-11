@@ -2,6 +2,7 @@ package com.example.movieapi.service;
 
 import com.example.movieapi.exception.OmdbApiException;
 import com.example.movieapi.service.dto.OmdbResponseDto;
+import com.example.movieapi.service.impl.OmdbServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class OmdbServiceUnitTest {
 
-    OmdbService omdbService;
+    OmdbServiceImpl omdbService;
 
     @Mock
     private RestTemplate restTemplate;
@@ -38,7 +39,7 @@ class OmdbServiceUnitTest {
 
     @BeforeEach
     void initializeService() {
-        omdbService = new OmdbService(restTemplate);
+        omdbService = new OmdbServiceImpl(restTemplate);
     }
 
     @Test

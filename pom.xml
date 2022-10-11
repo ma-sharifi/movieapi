@@ -13,14 +13,26 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>movieapi</name>
 	<description>Movie API</description>
+
+	<organization>
+		<name>Mahdi Sharifi Fake Company</name>
+		<url>https://www.linkedin.com/in/mahdisharifi/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>ma-sharifi</id>
+			<name>Mahdi Sharifi</name>
+			<email>mahdi.elu@gmail.com</email>
+		</developer>
+	</developers>
+
 	<properties>
 		<java.version>11</java.version>
 		<apache.common.csv.version>1.9.0</apache.common.csv.version>
 		<openapi.version>1.6.11</openapi.version>
 		<mapstruct.version>1.5.2.Final</mapstruct.version>
-		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<gson.version>2.9.1</gson.version>
-		<spring.cloud.contract.version>3.1.4</spring.cloud.contract.version>
 		<jwt.version>0.9.1</jwt.version>
 		<mariadb.version>3.0.4</mariadb.version>
 
@@ -144,7 +156,7 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-			<!--			Analyzing Source Code With SonarQube-->
+			<!--   Analyzing Source Code With SonarQube-->
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>

@@ -26,9 +26,10 @@ public interface MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get a movie by title if it won oscar Best Picture",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OmdbResponseDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid Request.", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Movie this this title not found", content = @Content)})
-    @Operation(summary = "find and return a movie by title if it won Best Picture oscar")
+            @ApiResponse(responseCode = "200", description = "If movie was not won a Best Picture Oscar then error_code =0 ",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OmdbResponseDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Movie with this title not found", content = @Content)})
+    @Operation(summary = "find and return a movie by title if it was won Best Picture oscar")
     ResponseEntity<ResponseDto<OmdbResponseDto>> getMovieWonOscar(
             @Parameter(description = "Movie title for checking if it won Best Picture oscar", example = "The Hurt Locker")
             @Valid @RequestParam("title") @NotNull(message = "#title is required") String title);
@@ -36,7 +37,7 @@ public interface MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get user rate entity saved into database and link of movie",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid Request.", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid Request.  Like If rate < 1.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Movie this this title not found", content = @Content)})
     @Operation(summary = "Get Rate and name of move from user, then find the movie by title on Omdb API then save movie info alongside the rate")
     ResponseEntity<ResponseDto<UserRateDto>> rateByTitle(
@@ -46,7 +47,6 @@ public interface MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get a movie by imdbID",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid Request.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Movie with this imdbId not found", content = @Content)})
     @Operation(summary = "find and return a movie by imdbID")
     ResponseEntity<ResponseDto<OmdbResponseDto>> getMovieFromOmdbApi(

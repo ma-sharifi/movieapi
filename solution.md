@@ -20,6 +20,7 @@ In top-ten service, For geting data of the movie to show to the user, we need to
 in the /rate service I added the imdb_id to database along with rate, box office adn other data I need.
 imdb_id helps me to generate a link to a movie and when the user needs it, can reach the movie by calling this link.
 Instead of calling the Omdb API every time, I just added a link to the movie to my object.
+*Note: Defined GET /v1/movies/{imdb-id} API for translate link that provided in top-ten to Movie object we get from Omdb API.
    
 ### ResponseDto
 There is a ResponseDto object. our response consist of this object. This object has a List<T> payload. 
@@ -27,15 +28,17 @@ Order to client find the body of the response here. Due to simplicity for client
 It supports arrays and objects. An object is an array with a length of one.
 
 ### Security
-All APIs protect by Bearer token except /login.
+All APIs protect by Bearer token except /login. For simplicity is used Spring Security. For production, I will use Keycloak.
 
 ###Test
 For testing when we need to connect to Omdb API, I used MockRestServiceServer for mocking Omdb API server. It helps to have a
 solidarity test, without dependency to Third Party and just test our functionality.
 Tried to have different type of test.
+You can test the application 4 different ways. Swagger, Postman, mvn Test, HTTPie CLI.
 
 ### Exception
 Defined different Exceptions for different situations.
+Provided a Global Exception handler to help handle exceptions in an easy way.
 
 ### Top-Ten
 I can put the list of top-ten in the local cache and read them when I need, for simplicity I did not do it.

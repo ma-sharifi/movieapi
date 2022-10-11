@@ -1,9 +1,9 @@
-package com.example.movieapi.controller;
+package com.example.movieapi.controller.impl;
 
-import com.example.movieapi.exception.BadRequestAlertException;
+import com.example.movieapi.controller.MovieController;
 import com.example.movieapi.security.AuthenticationFacade;
 import com.example.movieapi.service.MovieService;
-import com.example.movieapi.service.OmdbService;
+import com.example.movieapi.service.impl.OmdbServiceImpl;
 import com.example.movieapi.service.dto.OmdbResponseDto;
 import com.example.movieapi.service.dto.ResponseDto;
 import com.example.movieapi.service.dto.UserRateDto;
@@ -31,11 +31,11 @@ import java.util.Optional;
 @Slf4j
 public class MovieControllerImpl implements MovieController {
 
-    private final OmdbService omdbService;
+    private final OmdbServiceImpl omdbService;
     private final MovieService movieService;
     private final AuthenticationFacade authenticationFacade;
 
-    public MovieControllerImpl(OmdbService omdbService, MovieService movieService, AuthenticationFacade authenticationFacade) {
+    public MovieControllerImpl(OmdbServiceImpl omdbService, MovieService movieService, AuthenticationFacade authenticationFacade) {
         this.omdbService = omdbService;
         this.movieService = movieService;
         this.authenticationFacade = authenticationFacade;
@@ -54,9 +54,6 @@ public class MovieControllerImpl implements MovieController {
     @PostMapping(value = "/rate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity< ResponseDto<UserRateDto>> rateByTitle(@Valid @RequestBody UserRateDto userRateDto) {
         log.debug("#rateByTitle is called. userRateDto: "+userRateDto);
-        if (userRateDto.getRate() <1) {
-            throw new BadRequestAlertException("Rate must be grater than 0. Actual size is: "+userRateDto.getRate());
-        }
         ResponseDto<UserRateDto> responseDto = new ResponseDto<>();
         UserRateDto userRate = movieService.rateByTitle(userRateDto.getTitle(), userRateDto.getRate(), authenticationFacade.getAuthentication().getName());
         if (userRate != null)

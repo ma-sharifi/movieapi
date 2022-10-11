@@ -20,12 +20,15 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Movie API")
-                        .description("Movie API V1 Definition ")
                         .version("v1")
+                        .description("Give your username '/v1/users/login' and get the Bearer Token," +
+                                " Then click on Authorize button at the up right of the page." +
+                                " Paste the token here. At last click on 'Authorize'. Enjoy it ;-)")
                         .contact(new Contact()
                                 .name("Mahdi Sharifi")
                                 .url("https://www.linkedin.com/in/mahdisharifi/")
-                                .email("mahdi.elu@gmail.com"))
+                                .email("mahdi.elu@gmail.com")
+                        )
                 );
     }
 }

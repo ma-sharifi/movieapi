@@ -6,7 +6,6 @@ import com.example.movieapi.service.dto.UserRateDto;
 import com.example.movieapi.service.mapper.UserRateMapper;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.mockito.Spy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +18,7 @@ class UserRateMapperTest {
     UserRateMapper userRateMapper = Mappers.getMapper(UserRateMapper.class);
 
     @Test
-    void givenEntityToDto_whenMaps_thenCorrect() {
+    void shouldReturnDto_WhenToDtoIsCalled() {
         UserRate entity = new UserRate();
         entity.setTitle("Black Swan");
         entity.setId(new UserMovieId("tt1375666", "mahdi"));
@@ -31,7 +30,7 @@ class UserRateMapperTest {
     }
 
     @Test
-    void givenDtoToEntity_whenMaps_thenCorrect() {
+    void shouldReturnEntity_WhenToEntityIsCalled() {
         UserRateDto dto = UserRateDto.builder()
                 .title("Black Swan")
                 .username("mahdi")

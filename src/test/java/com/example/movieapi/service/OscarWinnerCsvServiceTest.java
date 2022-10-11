@@ -1,6 +1,7 @@
 package com.example.movieapi.service;
 
 import com.example.movieapi.exception.MovieNotFoundException;
+import com.example.movieapi.service.impl.OscarWinnerCsvServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class OscarWinnerCsvServiceTest {
 
     @Autowired
-    private OscarWinnerCsvService oscarWinnerService;
+    private OscarWinnerCsvServiceImpl oscarWinnerService;
 
 
     @Test
-    void should_ReturnSize() {
+    void shouldReturnSize_whenGetSizeIsCalled() {
         assertEquals(10137, oscarWinnerService.getSize());
         assertNotEquals(0, oscarWinnerService.getSize());
     }
 
     @Test
-    void Should_ReturnTrue_When_MovieWon() {
+    void ShouldReturnTrue_WhenMovieWon() {
         assertTrue(oscarWinnerService.findMovieByTitleAndCategory("The Hurt Locker").getWon());
         assertTrue(oscarWinnerService.findMovieByTitleAndCategory("Slumdog Millionaire").getWon());
     }
 
     @Test
-    void ShouldThrowMovieNotFoundException_When_MovieIsNotInCsvFile() {
+    void ShouldThrowMovieNotFoundException_WhenMovieDoesNotExistCalled() {
 
         MovieNotFoundException thrown = Assertions.assertThrows(MovieNotFoundException.class, () -> {
             // Act
@@ -45,7 +46,7 @@ class OscarWinnerCsvServiceTest {
     }
 
     @Test
-    void Should_ReturnFalse_When_MovieNotWin() {
+    void ShouldReturnFalse_WhenMovieNotWin() {
         assertFalse(oscarWinnerService.findMovieByTitleAndCategory("Black Swan").getWon());
     }
 

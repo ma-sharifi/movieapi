@@ -9,11 +9,6 @@ logging:
 server:
   port: 8080
 
-springdoc:
-  api-docs:
-    path : /javainuse-openapi
-
-
 spring:
   application:
     name: movieapi

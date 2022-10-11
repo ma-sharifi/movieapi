@@ -1,9 +1,8 @@
 package com.example.movieapi.service;
 
-import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.exception.MovieNotFoundException;
-import com.example.movieapi.exception.OmdbApiException;
 import com.example.movieapi.service.dto.OmdbResponseDto;
+import com.example.movieapi.service.impl.OmdbServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class OmdbServiceIT {
 
     @Autowired
-    private OmdbService omdbService;
+    private OmdbServiceImpl omdbService;
 
     @Test
-    void should_return_singleMovieByTitle() {
+    void shouldReturnOmdbResponseDto_whenSingleMovieByTitleIsCalled() {
         Optional<OmdbResponseDto> omdbResponseDtoOptional= omdbService.getSingleMovieByTitle("Black Swan");
             omdbResponseDtoOptional.ifPresent(result->
             {
@@ -37,8 +36,8 @@ class OmdbServiceIT {
 
     }
     @Test
-    void should_return_nothing() {
-        Optional<OmdbResponseDto> omdbResponseDtoOptional= omdbService.getSingleMovieByTitle("Hello");
+    void shouldReturnOmdbResponseDto_whenGetSingleMovieByTitleIsCalled() {
+        Optional<OmdbResponseDto> omdbResponseDtoOptional= omdbService.getSingleMovieByTitle("Black Swan");
         if(!omdbResponseDtoOptional.isPresent()) {
             assertNull(omdbResponseDtoOptional.get());
         }
@@ -54,7 +53,7 @@ class OmdbServiceIT {
     }
 
     @Test
-    void  should_return_singleMovieById() {
+    void  shouldReturnOmdbResponseDto_whenGetSingleMovieByImdbIdIsCalled() {
         Optional<OmdbResponseDto> omdbResponseDtoOptional= omdbService.getSingleMovieByImdbId("tt0947798");
         if(omdbResponseDtoOptional.isPresent()) {
             OmdbResponseDto responseDto=omdbResponseDtoOptional.get();

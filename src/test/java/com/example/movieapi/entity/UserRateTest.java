@@ -29,7 +29,7 @@ class UserRateTest {
     }
 
     @Test
-    void shouldReturnTrue_WhenEqualIsCalled() {
+    void shouldReturnTrue_whenEqualIsCalled() {
         String title = "Black Swan";
         UserMovieId id=new UserMovieId("tt1375666","test-user");
         UserMovieId id2=new UserMovieId("tt1375666","test-user");

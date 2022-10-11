@@ -2,12 +2,10 @@ package com.example.movieapi.service.impl;
 
 import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.entity.UserRate;
+import com.example.movieapi.exception.BadRequestAlertException;
 import com.example.movieapi.exception.MovieNotFoundException;
 import com.example.movieapi.exception.MovieWasNotWonException;
 import com.example.movieapi.service.MovieService;
-import com.example.movieapi.service.OmdbService;
-import com.example.movieapi.service.OscarWinnerCsvService;
-import com.example.movieapi.service.UserRateService;
 import com.example.movieapi.service.dto.OmdbResponseDto;
 import com.example.movieapi.service.dto.OscarWinnerCsvDto;
 import com.example.movieapi.service.dto.UserRateDto;
@@ -26,16 +24,16 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class MovieServiceImpl implements MovieService {
-    OmdbService omdbService;
-    OscarWinnerCsvService winnerCsvService;
-    UserRateService userRateService;
-    UserRateMapper userRateMapper;
+
+    private final OmdbServiceImpl omdbService;
+    private final OscarWinnerCsvServiceImpl winnerCsvService;
+    private final UserRateServiceImpl userRateService;
+    private final UserRateMapper userRateMapper;
 
     @Value("${server.port}")
     private String port;
 
-
-    public MovieServiceImpl(OmdbService omdbService, OscarWinnerCsvService winnerCsvService, UserRateService userRateService, UserRateMapper userRateMapper) {
+    public MovieServiceImpl(OmdbServiceImpl omdbService, OscarWinnerCsvServiceImpl winnerCsvService, UserRateServiceImpl userRateService, UserRateMapper userRateMapper) {
         this.omdbService = omdbService;
         this.winnerCsvService = winnerCsvService;
         this.userRateService = userRateService;
@@ -64,6 +62,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public UserRateDto rateByTitle(String title, int rate, String user) throws MovieNotFoundException {
+        if (rate < 1) {
+            throw new BadRequestAlertException("Rate must be grater than 0. Actual size is: "+rate);
+        }
         Optional<OmdbResponseDto> omdbResponseDtoOptional = omdbService.getSingleMovieByTitle(title);
         UserRate userRate;
         UserRateDto result;

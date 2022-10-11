@@ -5,6 +5,7 @@ import com.example.movieapi.entity.UserRate;
 import com.example.movieapi.exception.MovieNotFoundException;
 import com.example.movieapi.repository.UserRateRepository;
 import com.example.movieapi.service.dto.UserRateDto;
+import com.example.movieapi.service.impl.UserRateServiceImpl;
 import com.example.movieapi.service.mapper.UserRateMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class UserRateServiceUnitTest {
 
-    UserRateService userRateService;
+    UserRateServiceImpl userRateService;
 
     @Mock
     UserRateRepository userRateRepository;
@@ -39,7 +40,7 @@ class UserRateServiceUnitTest {
 
     @BeforeEach
     void initializeService() {
-        userRateService = new UserRateService(userRateRepository, userRateMapper);
+        userRateService = new UserRateServiceImpl(userRateRepository, userRateMapper);
     }
 
     @Test

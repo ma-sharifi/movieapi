@@ -3,14 +3,12 @@ package com.example.movieapi.bootstrap;
 import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.entity.UserRate;
 import com.example.movieapi.repository.UserRateRepository;
-import com.example.movieapi.service.OscarWinnerCsvService;
+import com.example.movieapi.service.impl.OscarWinnerCsvServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +19,7 @@ public class DataLoader implements CommandLineRunner {
 
     private final Environment environment;
 
-    private final OscarWinnerCsvService oscarWinnerService;
+    private final OscarWinnerCsvServiceImpl oscarWinnerService;
 
     private final UserRateRepository userRateRepository;
 
@@ -45,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
             ,new UserRate(new UserMovieId("tt0120689","Hasan"),10,"The Green Mile",12L)
     );
 
-    public DataLoader(Environment environment, OscarWinnerCsvService oscarWinnerService, UserRateRepository userRateRepository) {
+    public DataLoader(Environment environment, OscarWinnerCsvServiceImpl oscarWinnerService, UserRateRepository userRateRepository) {
         this.environment = environment;
         this.oscarWinnerService = oscarWinnerService;
         this.userRateRepository = userRateRepository;

@@ -5,13 +5,11 @@ import com.example.movieapi.entity.UserMovieId;
 import com.example.movieapi.entity.UserRate;
 import com.example.movieapi.service.dto.UserRateDto;
 import com.example.movieapi.service.mapper.GeneralMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 

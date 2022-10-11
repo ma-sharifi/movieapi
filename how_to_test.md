@@ -1,13 +1,51 @@
 # How to test service?
 
-There are three services in Movie API:
-* Get movie details if the movie won Oscar of **Best Picture** base of its title.  
- **GET** `/v1/movies/won`
+###You can test this project 4 different ways:
+1. Swagger
+2. Run test `mvn test`
+3. Postman. There is a Postman file of this project in this path /postman/movie-api.postman_collection.json
+4. CLI. Commands provided with HTTPie.
 
+###There are five services in Movie API:
+
+1. According to the movie's `title`, you can find out if the film won the Oscar for Best Picture.
+ * **GET**`/v1/movies/won`
+2. Users give rate to movies based on `title` with a range between 1 to 10
+ * **POST**`/v1/movies/rate`
+3. Get top-ten rated movies based on users' rates
+ * **GET**`/v1/movies/top-ten`
+4. Get movie details by `Imdb Id`. It is used for URLs that exist in the top-ten API.
+ * **GET**`/v1/movies/{imdb-id}`
+5. Issue a bearer token.
+ * **POST**`/v1/users/login`
+
+###How to use API
+1. Get an Bearer token from /v1/users/login API.
+2. Pas this token as a parameter 'Authorization:Bearer Bearer eyJhbGc...' to HTTPie reqest.
+
+###/v1/users/login
+* Get a bearer token
+  **POST**`/v1/users/login`
+```bash
+  http --form POST localhost:8080/v1/users/login username=mahdi
+```
+Result:
+```json
+{
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQzNzgxMywiZXhwIjoxNjY4MDMzNDEzfQ.xtuu2sriJZFI0_Q__OYr-aK1vPJkyiUjMo0F-k0E6lnJR0AO3xagz6bT3WqZVIopTl_VZRBDvqlPZxGQijvnyg",
+    "user": "mahdi"
+}
+```
+
+###/v1/movies/won
+* Get movie details if the movie won Oscar of **Best Picture** base of its title.
+* **GET** `/v1/movies/won`
+
+Request: 
 ```bash
 http GET "localhost:8080/v1/movies/won?title=Hurt Locker" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'
 ```
-
+Reponse: 
 ```json
 {
   "error_code": 0,
@@ -57,12 +95,12 @@ http GET "localhost:8080/v1/movies/won?title=Hurt Locker" 'Authorization:Bearer 
   ]
 }
 ```
-
 When movie does not exist
+- Request: 
 ```bash
-http GET "localhost:8080/v1/movies/won?title=Hello Mahdi" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'```
+http GET "localhost:8080/v1/movies/won?title=Hello Mahdi" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'
 ```
-
+Response: 
 ```json
 {
     "error_code": 4041,
@@ -72,25 +110,29 @@ http GET "localhost:8080/v1/movies/won?title=Hello Mahdi" 'Authorization:Bearer 
 ```
 
 When movie was not won
+Request:
 ```bash
-http GET "localhost:8080/v1/movies/won?title=Black Swan" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'```
-
+http GET "localhost:8080/v1/movies/won?title=Black Swan" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'
+```
+Response: 
 ```json
 {
-  "error_code": 4043,
+  "error_code": 1,
   "message": "Based on csv file movie was not won an Oscar of Best Picture with title: Black Swan",
   "payload": []
 }
 ```
 
+###/v1/movies/rate
 
-* User give rate to movies based on `title` with range 0 to 10  
+- Users give rate to movies based on `title` with a range between 1 to 10
   **POST**`/v1/movies/rate`
 
+Request
 ```bash 
-  http POST localhost:8080/v1/movies/rate rate=9 title="Black Swan" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'
- ```
-
+http POST localhost:8080/v1/movies/rate rate=9 title="Black Swan" 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'
+```
+Response:
 ```json
 {
   "error_code": 0,
@@ -108,12 +150,15 @@ http GET "localhost:8080/v1/movies/won?title=Black Swan" 'Authorization:Bearer B
 }
 ```
 
-* Find by imdb ID:
+###/v1/movies/{imdb-id}
+Get a movie details by `Imdb Id`. It used for the result of top-ten service.
+* **GET**`/v1/movies/{imdb-id}`
 
+Request: 
 ```bash 
 http GET localhost:8080/v1/movies/tt0371746 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw' ```
 ```
-
+Response: 
 ```json
 {
     "error_code": 0,
@@ -163,32 +208,16 @@ http GET localhost:8080/v1/movies/tt0371746 'Authorization:Bearer Bearer eyJhbGc
 }
 ```
 
-
-* GET top-ten rated movies based on users rates  
-  **GET**`/v1/movies/top-ten`
-
-* Get a bearer token 
-  **POST**`/v1/users/login`
+###/v1/movies/top-ten
+GET top-ten rated movies based on users rates. There is a link of the movie in each item. Based on youe need you can use link to reach the movie information.
+* **GET**`/v1/movies/top-ten`
+* 
+Request
 ```bash
-  http --form POST localhost:8080/v1/users/login username=mahdi
-```
-Result: 
-```json
-{
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQzNzgxMywiZXhwIjoxNjY4MDMzNDEzfQ.xtuu2sriJZFI0_Q__OYr-aK1vPJkyiUjMo0F-k0E6lnJR0AO3xagz6bT3WqZVIopTl_VZRBDvqlPZxGQijvnyg",
-    "user": "mahdi"
-}
-```
-
-* TopTen list: 
-
-```bash
-http GET localhost:8080/v1/movies/top-ten 'Authorization:Bearer BEARER_TOKEN'
 http GET localhost:8080/v1/movies/top-ten 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'
 ```
-
+Response
 ```json
-
 {
     "payload": [
         {
@@ -264,8 +293,6 @@ http GET localhost:8080/v1/movies/top-ten 'Authorization:Bearer Bearer eyJhbGciO
     ],
     "error_code": 0
 }
-
 ```
-
 
 

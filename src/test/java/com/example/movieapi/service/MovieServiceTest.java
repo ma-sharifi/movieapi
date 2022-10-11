@@ -26,7 +26,7 @@ class MovieServiceTest {
     MovieService movieService;
 
     @Test
-    void ShouldReturnTrue_WhenIsWonOscarCalled() {
+    void shouldReturnTrue_whenIsWonOscarCalled() {
         OmdbResponseDto omdbResponseDto = movieService.isWonOscar("The Hurt Locker");//"Slumdog Millionaire"
 
         assertEquals("The Hurt Locker", omdbResponseDto.getTitle());
@@ -36,7 +36,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void ShouldThrowMovieWasNotWonException_WhenMovieIsNotInCsvFile() {
+    void shouldThrowMovieWasNotWonException_whenMovieIsNotInCsvFile() {
 
         MovieWasNotWonException thrown = Assertions.assertThrows(MovieWasNotWonException.class, () -> {
             movieService.isWonOscar("Black Swan");
@@ -46,7 +46,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void ShouldThrowMovieNotFoundException_WhenMovieIsNotInCsvFile() {
+    void shouldThrowMovieNotFoundException_whenMovieIsNotInCsvFile() {
 
         MovieNotFoundException thrown = Assertions.assertThrows(MovieNotFoundException.class, () -> {
             movieService.isWonOscar("Hello Mahdi");
@@ -56,7 +56,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void ShouldReturnUserRate_WhenRateByTitleIsCalled() {
+    void shouldReturnUserRate_whenRateByTitleIsCalled() {
         UserRateDto userRateDto = movieService.rateByTitle("Black Swan", 1, "mahdi");
         assertEquals("Black Swan", userRateDto.getTitle());
         assertEquals("tt0947798", userRateDto.getImdbId());
@@ -66,7 +66,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void ShouldThrowMovieNotFoundException_WhenRateByTitleIsCalled() {
+    void shouldThrowMovieNotFoundException_whenRateByTitleIsCalled() {
 
         MovieNotFoundException thrown = Assertions.assertThrows(MovieNotFoundException.class, () -> {
             movieService.rateByTitle("Hello Mahdi", 10, "mahdi");
@@ -75,7 +75,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void ShouldReturnListOfTopTenMovie_WhenTopTenIsCalled() {
+    void shouldReturnListOfTopTenMovie_whenTopTenIsCalled() {
         List<UserRateDto> listTopTen = movieService.findTopTen();
         assertEquals("The Green Mile", listTopTen.get(0).getTitle());
         assertEquals("tt0120689", listTopTen.get(0).getImdbId());

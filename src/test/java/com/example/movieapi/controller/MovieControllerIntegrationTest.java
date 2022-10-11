@@ -14,9 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -149,7 +146,7 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
-    void ShouldReturnListOfTopTenMovie_WhenTopTenIsCalled() throws Exception {
+    void shouldReturnListOfTopTenMovie_WhenTopTenIsCalled() throws Exception {
         mockMvc
                 .perform(
                         get(TOP_TEN_URL )

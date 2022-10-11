@@ -1,5 +1,6 @@
-package com.example.movieapi.controller;
+package com.example.movieapi.controller.impl;
 
+import com.example.movieapi.controller.UserController;
 import com.example.movieapi.security.JwtTokenUtil;
 import com.example.movieapi.service.dto.UserDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class UserControllerImpl implements UserController {
 
+    /**
+     * Issue token base on username
+     */
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> login(
             @RequestParam(value = "username") String username, @RequestParam(required = false, value = "password") String password) {

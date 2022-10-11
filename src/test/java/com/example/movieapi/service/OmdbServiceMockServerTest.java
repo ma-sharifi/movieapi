@@ -1,6 +1,7 @@
 package com.example.movieapi.service;
 
 import com.example.movieapi.service.dto.OmdbResponseDto;
+import com.example.movieapi.service.impl.OmdbServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 class OmdbServiceMockServerTest {
 
     @Autowired
-    private OmdbService omdbService;
+    private OmdbServiceImpl omdbService;
     @Autowired
     private RestTemplate restTemplate;
     private MockRestServiceServer mockServer;

@@ -3,7 +3,6 @@ package com.example.movieapi.dto;
 import com.example.movieapi.service.dto.OscarWinnerCsvDto;
 import org.junit.jupiter.api.Test;
 
-import static com.example.movieapi.service.mapper.GeneralMapper.toYear;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
