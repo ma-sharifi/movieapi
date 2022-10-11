@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "a730fcd9-1453-491a-9cad-8fe4828735c0",
+		"name": "movie-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3135179"
+	},
+	"item": [
+		{
+			"name": "is won",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQzNTg1MywiZXhwIjoxNjY4MDMxNDUzfQ.7m3JHpuvaBFOL7Z_uSDQ4jpuyH99iBdSR_WZc8mDXtIF9-o_p_qCx_IW3VrZqaoXasDGZtKG9fR8Sdwa-dEE-w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/movies/won?title=Blac1k Swan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"movies",
+						"won"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Blac1k Swan"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-ten",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 using to have\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/movies/top-ten",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"movies",
+						"top-ten"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find by imdbId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTI1NDI5MCwiZXhwIjoxNjY1MzUyMjEwfQ.nxUToW8s4gA7-Pl6oewmz2Iyv-EAKjnJ4M6WBCNqZcg2v4SI9XQfrYrSUzDi_9vyc996mIISb4dz07Z_VXlXoQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/movies/tt0371746",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"movies",
+						"tt0371746"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rate movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 using to have\", function () {",
+							"  pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"rate\": 9 ,\"title\": \"Black Swan\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/movies/rate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"movies",
+						"rate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "call omdbapi.com",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.omdbapi.com/?t=swan&apikey=c732beed",
+					"protocol": "https",
+					"host": [
+						"www",
+						"omdbapi",
+						"com"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "t",
+							"value": "swan"
+						},
+						{
+							"key": "apikey",
+							"value": "c732beed"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "mahdi",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

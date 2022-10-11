@@ -1,0 +1,27 @@
+environement:
+  property: I AM THE PROD
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: movieapi
+  datasource:
+    url: jdbc:mariadb://localhost:3306/movieapi
+    username: root
+    password: root
+
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+
+
+omdbapi:
+  url: http://www.omdbapi.com/
+  apikey: c732beed
+
+jwt:
+  secret: 105f38b84d01e6d4bc6

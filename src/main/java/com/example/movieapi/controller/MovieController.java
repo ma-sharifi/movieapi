@@ -1,89 +1,62 @@
 package com.example.movieapi.controller;
 
-import com.example.movieapi.entity.UserRate;
-import com.example.movieapi.service.MovieService;
-import com.example.movieapi.service.OmdbService;
-import com.example.movieapi.service.OscarWinnerCsvService;
 import com.example.movieapi.service.dto.OmdbResponseDto;
-import com.example.movieapi.service.dto.RequestDto;
 import com.example.movieapi.service.dto.ResponseDto;
 import com.example.movieapi.service.dto.UserRateDto;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Mahdi Sharifi
- * @since 10/4/22
+ * @since 10/7/22
  */
-@RestController
-@RequestMapping("/v1/movies")
-@Tag(name = "movie-controller for handling movie requests", description = "get,rate,top ten the movie")
-@Slf4j
-public class MovieController {
+public interface MovieController {
 
-    private final OscarWinnerCsvService oscarWinnerService;
-    private final OmdbService omdbService;
-    private final MovieService movieService;
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get a movie by title if it won oscar Best Picture",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OmdbResponseDto.class))}),
+            @ApiResponse(responseCode = "200", description = "If movie was not won a Best Picture Oscar then error_code =0 ",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = OmdbResponseDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Movie with this title not found", content = @Content)})
+    @Operation(summary = "find and return a movie by title if it was won Best Picture oscar")
+    ResponseEntity<ResponseDto<OmdbResponseDto>> getMovieWonOscar(
+            @Parameter(description = "Movie title for checking if it won Best Picture oscar", example = "The Hurt Locker")
+            @Valid @RequestParam("title") @NotNull(message = "#title is required") String title);
 
-    public MovieController(OscarWinnerCsvService oscarWinnerService, OmdbService omdbService, MovieService movieService) {
-        this.oscarWinnerService = oscarWinnerService;
-        this.omdbService = omdbService;
-        this.movieService = movieService;
-    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get user rate entity saved into database and link of movie",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid Request.  Like If rate < 1.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Movie this this title not found", content = @Content)})
+    @Operation(summary = "Get Rate and name of move from user, then find the movie by title on Omdb API then save movie info alongside the rate")
+    ResponseEntity<ResponseDto<UserRateDto>> rateByTitle(
+            @Parameter(description = "rate is the rat that user give to this movie , title is the title of movie", example = "The Hurt Locker")
+            @Valid @RequestBody UserRateDto userRateDto);
 
-//    @GetMapping(value = "o", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ResponseDto> callOmdb() {
-//        log.info("#Call callOmdb");
-//        List<OmdbResponseDto> payload = new ArrayList<>();
-//        OmdbResponseDto omdbResponseDto = omdbService.getSingleMovieByTitle("Inception");
-//        payload.add(omdbResponseDto);
-//        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto<>(payload);
-//        responseDto.setPayload(payload);
-//        return ResponseEntity.ok(responseDto);
-//    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get a movie by imdbID",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Movie with this imdbId not found", content = @Content)})
+    @Operation(summary = "find and return a movie by imdbID")
+    ResponseEntity<ResponseDto<OmdbResponseDto>> getMovieFromOmdbApi(
+            @Parameter(description = "ImdbId for finding movie base on that", example = "tt0887912")
+            @Valid @PathVariable("imdb-id") String imdbId);
 
-    @GetMapping(value = "/won", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> getMovieWonOscar(
-            @Valid @RequestParam("title") @NotNull(message = "#title is required") String title) {
-        log.info("#call getMovieWonOscar title: " + title);
-        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto();
-        OmdbResponseDto result = movieService.isWonOscar(title);
-        if (result != null)
-            responseDto.setPayload(List.of(result));
-        return ResponseEntity.ok(responseDto);
-    }
-
-    @PostMapping(value = "id/{imdb-id}/rate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> rateByImdbId(
-            @PathVariable("imdb-id") String imdbId,
-            @Valid @RequestBody RequestDto requestDto) {
-        ResponseDto<UserRateDto> responseDto = new ResponseDto();
-        UserRateDto userRate = movieService.rateByImdbId(imdbId, requestDto.getRate(), "mahdi");
-        if (userRate != null)
-            responseDto.setPayload(List.of(userRate));
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
-    }
-
-    @PostMapping(value = "/rate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDto> rateByTitle(@Valid @RequestBody RequestDto requestDto) {
-        ResponseDto responseDto = new ResponseDto();
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
-    }
-
-    @GetMapping(value = "/top-ten") // tt1375666 , tt0947798
-    public ResponseEntity<ResponseDto<OmdbResponseDto>> getTopTenMove() {
-        ResponseDto<OmdbResponseDto> responseDto = new ResponseDto();
-        responseDto.setPayload(movieService.findTopTen());
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
-    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get top ten rated movies ordered by boxoffice",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content)})
+    @Operation(summary = "return top ten rated movies ordered by boxoffice")
+    ResponseEntity<ResponseDto<UserRateDto>> getTopTenMove();
 }

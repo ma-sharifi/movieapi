@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 public class MovieNotFoundException extends AbstractThrowable {
 
     public MovieNotFoundException(String title) {
-        super("Could not find movie with title: " + title, HttpStatus.NOT_FOUND,4041);
+        super("Could not find the movie: " + title, HttpStatus.NOT_FOUND, 4041);
     }
 
 }

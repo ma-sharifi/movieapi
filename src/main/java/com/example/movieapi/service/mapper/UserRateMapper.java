@@ -13,14 +13,12 @@ import org.mapstruct.Mapping;
  */
 
 @Mapper(componentModel = "spring")
-public interface UserRateMapper extends EntityMapper<UserRateDto, UserRate> {
+public interface UserRateMapper{
 
-    @Override
     @Mapping(source = "id.imdbId", target = "imdbId")
     @Mapping(source = "id.username", target = "username")
     UserRateDto toDto(UserRate entity);
 
-    @Override
     @Mapping(source = "imdbId", target = "id.imdbId")
     @Mapping(source = "username", target = "id.username")
     UserRate toEntity(UserRateDto dto);
