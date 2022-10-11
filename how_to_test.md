@@ -1,9 +1,10 @@
 # How to test service?
+file explaining what needs to be done to use the service
 
 ###You can test this project 4 different ways:
-1. Swagger
+1. Swagger. `http://localhost:8080/swagger-ui/index.html`
 2. Run test `mvn test`
-3. Postman. There is a Postman file of this project in this path /postman/movie-api.postman_collection.json
+3. Postman. There is a Postman file of this project in this path located in `/postman/movie-api.postman_collection.json`
 4. CLI. Commands provided with HTTPie.
 
 ###There are five services in Movie API:
@@ -21,8 +22,13 @@
 
 ###How to use API
 1. Get an Bearer token from /v1/users/login API.
-2. Pas this token as a parameter 'Authorization:Bearer Bearer eyJhbGc...' to HTTPie reqest.
+2. Pass this token as a parameter 'Authorization:Bearer Bearer eyJhbGc...' to HTTPie reqest.
 
+## Swagger:
+Give your username '/v1/users/login' and get the Bearer Token,Then click on Authorize button at the up right of the page.  Paste the token here. At last click on 'Authorize'
+>http://localhost:8080/swagger-ui/index.html
+
+## HTTPie
 ###/v1/users/login
 * Get a bearer token
   **POST**`/v1/users/login`
@@ -211,7 +217,6 @@ Response:
 ###/v1/movies/top-ten
 GET top-ten rated movies based on users rates. There is a link of the movie in each item. Based on youe need you can use link to reach the movie information.
 * **GET**`/v1/movies/top-ten`
-* 
 Request
 ```bash
 http GET localhost:8080/v1/movies/top-ten 'Authorization:Bearer Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJtb3ZpZWFwaSIsInN1YiI6Im1haGRpIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY2NTQxMDA5OSwiZXhwIjoxNjY4MDA1Njk5fQ.UCrWJtWMvCGensjZf6fuowrXTkE-j8adtyEwwABg57R0QZ8p_IFVqflkhhoGIuLcleDonXjxmTbHQUecYJcYMw'

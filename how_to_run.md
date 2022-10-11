@@ -1,7 +1,6 @@
 # How to run the application?
 
 This application is written with Java 11 and is compatible with java 17.
-
 You can give a profile as a parameter. Without a profile, it will use by default.
 
 ```shell
