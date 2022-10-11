@@ -7,8 +7,7 @@ import org.mapstruct.Mapping;
 
 /**
  * @author Mahdi Sharifi
- * @since 10/5/22
- * <p>
+ * @since 10/10/22
  * Mapper for the entity {@link UserRateMapper} and its DTO {@link UserRateDto}.
  */
 

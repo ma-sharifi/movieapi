@@ -10,6 +10,7 @@ import java.util.Optional;
  * @since 10/11/22
  */
 public interface OmdbService {
+
     Optional<OmdbResponseDto> getSingleMovieByTitle(String title) throws MovieNotFoundException;
 
     Optional<OmdbResponseDto> getSingleMovieByImdbId(String imdbId);
