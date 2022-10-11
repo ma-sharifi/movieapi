@@ -16,7 +16,7 @@ The project consists of an API to be used for getting a movie if it won, rate th
  > http://localhost:8080/swagger-ui/index.html
 
 ## Postman:
- > located in /postman/movie-api.postman_collection.json
+ > Postman API file is located in [here](postman/movie-api.postman_collection.json)
 
 ## Movie API Diagram
 
@@ -26,9 +26,25 @@ The project consists of an API to be used for getting a movie if it won, rate th
 
 ![data-flow-won](https://user-images.githubusercontent.com/8404721/195102785-21b86a33-458a-4dc9-b035-774f09ca0662.jpg)
 
+### Entity diagram
+
+![entity](https://user-images.githubusercontent.com/8404721/195184747-972367af-92ef-4ae2-a73f-c08892976c88.jpg)
+
+
+
 ## Test Coverage
 * 100% Class
 * 92% Method
 * 90% Line
+
+## Other Documents
+* You can find diagrams in path [here](diagram)
+* My assumptions when solving the challenge, you can find [here](assumptions.md)
+* A short explanation about how to run the solution with all the needed parts, you can find [here](how_to_run.md)
+* A file explaining what needs to be done to use the service, you can find [here](how_to_test.md)
+* A short description of the solution and explaining some design decisions, you can find [here](solution.md)
+* A description of how it will scale when the number of grows, you can find [here](scale.md)
+* A to-do list with things I would add if I have more time and explaining what is missing and why, you can find [here](to_do.md)
+
 
 
