@@ -29,22 +29,11 @@ class AuthenticationFacadeImplTest {
         SecurityContextHolder.setContext(securityContext);
     }
     @Test
-    void metgod(){
+    void shoutTestSecurityContextHolder(){
         SecurityContextHolder.setContext(SecurityContextHolder.createEmptyContext());
         SecurityContextHolder.getContext().setAuthentication(
                 new TestingAuthenticationToken("TEST_USER", null)
         );
     }
-
-//    @Test
-//    void mockAuthentication() {
-//        AuthenticationFacade auth = mock(AuthenticationFacadeImpl.class);
-//
-//        when(auth.getAuthentication().getName()).thenReturn("mahdi");
-//
-//        SecurityContext securityContext = mock(SecurityContext.class);
-//        when(securityContext.getAuthentication()).thenReturn(auth);
-//        SecurityContextHolder.setContext(securityContext);
-//    }
 
 }

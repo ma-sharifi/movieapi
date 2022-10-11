@@ -64,7 +64,7 @@ class UserRateServiceUnitTest {
             userRateService.findOne(new UserMovieId("1","1"));
         });
         // Assert
-        assertTrue(thrown.getMessage().contains("movie with id"));
+        assertTrue(thrown.getMessage().contains("not find the movie"));
     }
 
 //    @Test

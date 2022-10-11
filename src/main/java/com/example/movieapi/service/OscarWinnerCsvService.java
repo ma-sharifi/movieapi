@@ -39,20 +39,23 @@ public class OscarWinnerCsvService {
             this.oscarWinnerFile=oscarWinnerFile;
     }
 
-    public void loadOscarWinners() throws IOException {
+    public int loadOscarWinners() throws IOException {
             Reader in = new FileReader(oscarWinnerFile);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord().parse(in);
+        int counter=0;
         for (CSVRecord csvRecord : records) {
             oscarWinners.add(toOscarWinnerDto(csvRecord));
+            counter++;
         }
+        return counter;
     }
 
     public OscarWinnerCsvDto findMovieByTitleAndCategory(String title) {
         Optional<OscarWinnerCsvDto> oscarWinnerDtoOptional=oscarWinners.stream()
                 .filter(movie -> (movie.getNominee().contains(title) && movie.getCategory().contains(CATEGORY))).findFirst();
         if(oscarWinnerDtoOptional.isPresent())
-            log.debug("###title: "+title+" ;WON; "+oscarWinnerDtoOptional.get());
-        else  log.debug("###title: "+title+" ;LOOS");
+            log.debug("#title: "+title+" ;WON; "+oscarWinnerDtoOptional.get());
+        else  log.debug("#title: "+title+" ;LOOS");
         return oscarWinnerDtoOptional.orElseThrow(() -> new MovieNotFoundException(title+" ;Based on CSV file"));
     }
 

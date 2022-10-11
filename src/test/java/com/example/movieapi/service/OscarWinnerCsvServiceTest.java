@@ -43,7 +43,7 @@ class OscarWinnerCsvServiceTest {
             oscarWinnerService.findMovieByTitleAndCategory("Hello Mahdi");
         });
         // Assert
-        assertTrue(thrown.getMessage().contains("not find movie with"));
+        assertTrue(thrown.getMessage().contains("not find the movie"));
 
     }
 

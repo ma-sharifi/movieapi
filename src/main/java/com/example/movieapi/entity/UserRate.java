@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Builder
+@Cacheable(value = false)
 public class UserRate implements Serializable {
     private static final long serialVersionUID = 1L;
 

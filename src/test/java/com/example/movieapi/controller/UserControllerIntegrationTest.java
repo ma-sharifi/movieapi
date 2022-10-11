@@ -1,25 +1,17 @@
 package com.example.movieapi.controller;
 
-import com.example.movieapi.MovieapiApplication;
+import com.example.movieapi.IntegrationTest;
 import com.example.movieapi.security.JwtTokenUtil;
 import com.example.movieapi.service.dto.UserDto;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -32,9 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Mahdi Sharifi
  * @since 10/8/22
  */
-@SpringBootTest(classes = MovieapiApplication.class)
-@AutoConfigureMockMvc
- class UserControllerTest {
+@IntegrationTest
+ class UserControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,19 +45,5 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        assertNotNull(claims.get("authorities"));
 
    }
-//    @SneakyThrows
-//    @Test
-//    @WithMockUser(username = "mahdi",password = "mahdi",roles = {"ROLE_USER"})
-//    void updatePassword() {
-//        mockMvc.perform( MockMvcRequestBuilders.post("/v1/user/login?username=mahdi")
-//                        .contentType(MediaType.APPLICATION_JSON))
-////                        .content("{\n" +
-////                                "  \"newPassword\": \"12345\",\n" +
-////                                "  \"oldPassword\": \"12345\"\n" +
-////                                "}"))
-//                .andExpect(ResultMatcher.matchAll(status().isOk()))
-//                .andDo(print());
-//    }
-
 
 }

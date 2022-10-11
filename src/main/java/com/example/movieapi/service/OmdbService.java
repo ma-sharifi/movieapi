@@ -19,8 +19,11 @@ import java.util.Optional;
 @Slf4j
 public class OmdbService {
 
-    @Autowired
     private RestTemplate restTemplate;
+
+    public OmdbService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Value("${omdbapi.url}")
     private String url;

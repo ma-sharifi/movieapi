@@ -8,6 +8,6 @@ import org.springframework.http.HttpStatus;
  */
 public class MovieWasNotWonException extends  AbstractThrowable {
     public MovieWasNotWonException(String title) {
-        super("Based on csv file movie was not won an Oscar of Best Picture with title: " + title, HttpStatus.NOT_FOUND,4043);
+        super("Based on csv file movie was not won an Oscar of Best Picture with title: " + title, HttpStatus.OK,1);
     }
 }

@@ -56,14 +56,14 @@ public class DataLoader implements CommandLineRunner {
 
         log.info("#data is loading.....");
         loadData();
-        log.info("#data is loaded.");
         log.info("#Currently active profile - " + Arrays.toString(environment.getActiveProfiles()));
 
     }
 
     public void loadData() {
         try {
-            oscarWinnerService.loadOscarWinners();
+            int dataLoadedSize= oscarWinnerService.loadOscarWinners();
+            log.info("#data is loaded. Size of loaded data is: "+dataLoadedSize);
         } catch (Exception e) {
             log.error("Exception while loading data from CSV file");
         }

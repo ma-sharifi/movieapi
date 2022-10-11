@@ -8,7 +8,7 @@ mvn package
 OR
 mvn spring-boot:run
 ```
-and then execute the jar:
+or then execute the jar:
 ```shell
 java -jar target/movieapi.jar
 ```

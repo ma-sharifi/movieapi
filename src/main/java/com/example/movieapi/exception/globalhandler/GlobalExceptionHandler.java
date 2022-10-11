@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(responseDto.getHttpStatus()).body(responseDto);
     }
 
-    @ExceptionHandler(value = {CsvFileException.class, OmdbApiException.class,
+    @ExceptionHandler(value = { OmdbApiException.class,
             BadRequestAlertException.class, MovieNotFoundException.class,MovieWasNotWonException.class})
     public ResponseEntity<ResponseDto<Void>> handleException(AbstractThrowable ex) {
         return ResponseEntity.status(ex.getHttpStatus()).body(toDto(ex));

@@ -1,10 +1,10 @@
 package com.example.movieapi.controller;
 
+import com.example.movieapi.exception.BadRequestAlertException;
 import com.example.movieapi.security.AuthenticationFacade;
 import com.example.movieapi.service.MovieService;
 import com.example.movieapi.service.OmdbService;
 import com.example.movieapi.service.dto.OmdbResponseDto;
-import com.example.movieapi.service.dto.RequestDto;
 import com.example.movieapi.service.dto.ResponseDto;
 import com.example.movieapi.service.dto.UserRateDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -52,9 +52,13 @@ public class MovieControllerImpl implements MovieController {
     }
 
     @PostMapping(value = "/rate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity< ResponseDto<UserRateDto>> rateByTitle(@Valid @RequestBody RequestDto requestDto) {
+    public ResponseEntity< ResponseDto<UserRateDto>> rateByTitle(@Valid @RequestBody UserRateDto userRateDto) {
+        log.debug("#rateByTitle is called. userRateDto: "+userRateDto);
+        if (userRateDto.getRate() <1) {
+            throw new BadRequestAlertException("Rate must be grater than 0. Actual size is: "+userRateDto.getRate());
+        }
         ResponseDto<UserRateDto> responseDto = new ResponseDto<>();
-        UserRateDto userRate = movieService.rateByTitle(requestDto.getTitle(), requestDto.getRate(), authenticationFacade.getAuthentication().getName());
+        UserRateDto userRate = movieService.rateByTitle(userRateDto.getTitle(), userRateDto.getRate(), authenticationFacade.getAuthentication().getName());
         if (userRate != null)
             responseDto.setPayload(List.of(userRate));
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);

@@ -1,7 +1,6 @@
 package com.example.movieapi.controller;
 
 import com.example.movieapi.service.dto.OmdbResponseDto;
-import com.example.movieapi.service.dto.RequestDto;
 import com.example.movieapi.service.dto.ResponseDto;
 import com.example.movieapi.service.dto.UserRateDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +41,7 @@ public interface MovieController {
     @Operation(summary = "Get Rate and name of move from user, then find the movie by title on Omdb API then save movie info alongside the rate")
     ResponseEntity<ResponseDto<UserRateDto>> rateByTitle(
             @Parameter(description = "rate is the rat that user give to this movie , title is the title of movie", example = "The Hurt Locker")
-            @Valid @RequestBody RequestDto requestDto);
+            @Valid @RequestBody UserRateDto userRateDto);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get a movie by imdbID",

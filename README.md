@@ -5,7 +5,7 @@ The assessment consists of an API to be used for getting a movie if it won, rate
 # Introduction
 Welcome to Movie API.
 
-## The main features of this mini bank:
+## The main features of this application:
 1. The application should Indicate whether a movie won a “Best Picture” Oscar, given a movie’s title based on this API and this CSV file that
    contains winners from 1927 until 2010.
 2. It should also allow users to give a rating to movies.
@@ -16,8 +16,17 @@ Welcome to Movie API.
 ## Swagger:
  > http://localhost:8080/swagger-ui/index.html
 
+## Postman:
+ located in /postman/movie-api.postman_collection.json
+
 ## Movie API Diagram
+
 ![data-flow](https://user-images.githubusercontent.com/8404721/194955295-3e279b9d-ccd0-4b51-81dc-ef69c99fd616.jpg)
+
+## Test Coverage
+* 100% Class
+* 92% Method
+* 90% Line
 
 * Note: for Top-Ten rated by Movie API website, in response you will see the link of movie not the movie. If you need you can use this link to get the movie.
         It helps us to don't communicate a lot with Omdb server (external server).

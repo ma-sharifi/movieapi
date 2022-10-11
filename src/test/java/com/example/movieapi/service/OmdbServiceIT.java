@@ -1,14 +1,17 @@
 package com.example.movieapi.service;
 
+import com.example.movieapi.entity.UserMovieId;
+import com.example.movieapi.exception.MovieNotFoundException;
+import com.example.movieapi.exception.OmdbApiException;
 import com.example.movieapi.service.dto.OmdbResponseDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mahdi Sharifi
@@ -39,6 +42,15 @@ class OmdbServiceIT {
         if(!omdbResponseDtoOptional.isPresent()) {
             assertNull(omdbResponseDtoOptional.get());
         }
+    }
+
+    @Test
+    void shouldReturnMovieNotFoundException_whenGetSingleMovieByTitleIsCalled() {
+        MovieNotFoundException thrown = Assertions.assertThrows(MovieNotFoundException.class, () -> {
+            omdbService.getSingleMovieByTitle("Hello Mahdi");
+        });
+        // Assert
+        assertTrue(thrown.getMessage().contains("not find the movie"));
     }
 
     @Test

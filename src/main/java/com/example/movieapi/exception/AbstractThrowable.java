@@ -1,9 +1,6 @@
 package com.example.movieapi.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -11,10 +8,7 @@ import org.springframework.http.HttpStatus;
  * @since 10/6/22
  */
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-@AllArgsConstructor
-@Builder
+@AllArgsConstructor @Getter
 public class AbstractThrowable extends RuntimeException {
 
     private final String message;//"Could not find account with id: "
