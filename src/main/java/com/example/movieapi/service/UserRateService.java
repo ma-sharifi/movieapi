@@ -11,6 +11,7 @@ import java.util.List;
  * @since 10/11/22
  */
 public interface UserRateService {
+
     UserRateDto save(UserRate userRate);
 
     UserRateDto findOne(UserMovieId id);

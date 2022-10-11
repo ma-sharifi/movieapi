@@ -40,13 +40,6 @@ public class MovieServiceImpl implements MovieService {
         this.userRateMapper = userRateMapper;
     }
 
-    /**
-     * Because there is no information about type of Oscar on Omdb API,
-     * First of all SCV file search.
-     *
-     * @param title
-     * @return
-     */
     @Override
     public OmdbResponseDto isWonOscar(String title) throws MovieNotFoundException, MovieWasNotWonException {
         Optional<OmdbResponseDto> responseDtoOptional;

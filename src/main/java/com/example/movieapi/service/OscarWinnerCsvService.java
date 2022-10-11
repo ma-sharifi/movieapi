@@ -10,6 +10,9 @@ import java.util.List;
  * @since 10/11/22
  */
 public interface OscarWinnerCsvService {
+    /**
+     * Load the file and save it to an ArrayList
+     */
     int loadOscarWinners() throws IOException;
 
     OscarWinnerCsvDto findMovieByTitleAndCategory(String title);

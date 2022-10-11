@@ -39,12 +39,12 @@ The project consists of an API to be used for getting a movie if it won, rate th
 
 ## Other Documents
 * You can find diagrams in path [here](diagram)
-* My assumptions when solving the challenge, you can find [here](assumptions.md)
+* A short description of the solution and explaining some design decisions, you can find [here](solution.md)
 * A short explanation about how to run the solution with all the needed parts, you can find [here](how_to_run.md)
 * A file explaining what needs to be done to use the service, you can find [here](how_to_test.md)
-* A short description of the solution and explaining some design decisions, you can find [here](solution.md)
-* A description of how it will scale when the number of grows, you can find [here](scale.md)
 * A to-do list with things I would add if I have more time and explaining what is missing and why, you can find [here](to_do.md)
+* My assumptions when solving the challenge, you can find [here](assumptions.md)
+* A description of how it will scale when the number of grows, you can find [here](scale.md)
 
 
 
