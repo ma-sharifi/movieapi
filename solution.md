@@ -59,8 +59,6 @@ Provided a Global Exception handler to help handle exceptions in an easy way.
 I used MapStruct for mapping entity to Dto and vice versa. Mapstruct is compile time not runtime. It helps to have a better speed.
 
 ###Endpoint
-
-### Endpoints
 **v1/movies/won**
 According to the movie's `title`, you can find out if the film won the Oscar for Best Picture.
 1. Check CSV file for title and Best Picture Oscar movie category.
