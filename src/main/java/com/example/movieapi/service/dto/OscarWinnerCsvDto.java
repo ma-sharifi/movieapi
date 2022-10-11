@@ -1,9 +1,8 @@
 package com.example.movieapi.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -12,8 +11,7 @@ import java.time.LocalDate;
  * @since 10/4/22
  */
 @Getter
-@Setter
-@NoArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OscarWinnerCsvDto {
 

@@ -1,15 +1,16 @@
 # How to run the application?
 
-This application is written with Java 17.
+This application is written with Java 11.
 To run locally the application you have to build it:
+Or give a profile as a parameter. Without profile, it will use with default.
 
 ```shell
-mvn package
-OR
 mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
 ```
-or then execute the jar:
+or package and then execute the jar:
 ```shell
+mvn package
 java -jar target/movieapi.jar
 ```
 

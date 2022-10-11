@@ -19,20 +19,16 @@ spring:
     name: movieapi
   datasource:
     url: jdbc:h2:mem:movieapi
-    #    url: jdbc:h2:file:/data/demo if you  want to store data, uncomment this line
     driverClassName: org.h2.Driver
     username: sa
     password: sa
+
   h2:
-    console.enabled: true # Access to H2 Console with link: http://localhost:8080/h2-console
+    console.enabled: true # Access to H2 Console  http://localhost:8080/h2-console
     console.path: /h2-console
     console.settings.trace: false
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
 
 security:
   basic:

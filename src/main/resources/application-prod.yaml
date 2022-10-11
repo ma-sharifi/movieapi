@@ -11,9 +11,13 @@ spring:
     url: jdbc:mariadb://localhost:3306/movieapi
     username: root
     password: root
+
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+
 
 omdbapi:
   url: http://www.omdbapi.com/

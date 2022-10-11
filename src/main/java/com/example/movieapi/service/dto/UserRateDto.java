@@ -2,22 +2,20 @@ package com.example.movieapi.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
-
-import java.math.BigInteger;
+import lombok.*;
 
 /**
  * @author Mahdi Sharifi
  * @since 10/4/22
- * <p>
+ *
  * https://www.omdbapi.com/?t=swan&apikey=c732beed
  * {
  * "Source": "Internet Movie Database",
  * "Value": "8.0/10"
  * },
  */
-@Data
+@Getter
+@EqualsAndHashCode
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRateDto {
@@ -35,7 +33,11 @@ public class UserRateDto {
     private String title;
 
     @JsonProperty("box_office")
-    private BigInteger boxOffice;
+    private Long boxOffice;
 
     private String url;
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

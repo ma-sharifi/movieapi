@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.example.movieapi.service.mapper.GeneralMapper.toYear;
+
 /**
  * @author Mahdi Sharifi
  * @since 10/4/22
@@ -68,23 +70,15 @@ public class OscarWinnerCsvService {
     }
 
     private OscarWinnerCsvDto toOscarWinnerDto(CSVRecord csvRecord) {
-        OscarWinnerCsvDto dto=new OscarWinnerCsvDto();
-        dto.setYear(toYear(csvRecord));
-        dto.setCategory(csvRecord.get("Category"));
-        dto.setNominee(csvRecord.get("Nominee"));
-        dto.setAdditionalInfo(csvRecord.get("Additional Info"));
-        dto.setWon(csvRecord.get("Won").equals("YES"));
-        return dto;
+        return OscarWinnerCsvDto.builder()
+                .year(toYear(csvRecord))
+                .category(csvRecord.get("Category"))
+                .nominee(csvRecord.get("Nominee"))
+                .additionalInfo(csvRecord.get("Additional Info"))
+                .won(csvRecord.get("Won").equals("YES"))
+                .build();
     }
 
-    private LocalDate toYear(CSVRecord csvRecord) {
-        String date = csvRecord.get("Year");
-        DateTimeFormatter format = new DateTimeFormatterBuilder()
-                .appendPattern("yyyy")
-                .parseDefaulting(ChronoField.MONTH_OF_YEAR, 1)
-                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
-                .toFormatter();
-        return LocalDate.parse(date.substring(0, 4), format);
-    }
+
 
 }

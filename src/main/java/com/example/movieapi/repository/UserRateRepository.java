@@ -16,13 +16,10 @@ import java.util.List;
 @Repository
 public interface UserRateRepository extends CrudRepository<UserRate, UserMovieId> {
 
-    @Query(
-            value =" SELECT IMDB_ID, TITLE,  BOX_OFFICE, AVG(CAST(RATE as double)) as AVG_RATE " +
-                    "    FROM user_rate " +
-                    "    GROUP BY IMDB_ID" +
-                    "     , BOX_OFFICE , title" +
-                    "    HAVING AVG(CAST(rate as double))>0 " +
-                    "    ORDER BY  AVG(rate) DESC,  BOX_OFFICE DESC, BOX_OFFICE DESC limit 10",
-            nativeQuery = true)
+    /**
+     * 10 top-rated movies ordered by box office value.
+     */
+    @Query("SELECT ur.id.imdbId, ur.title,ur.boxOffice,avg (ur.rate) FROM UserRate AS ur " +
+            "GROUP BY ur.id.imdbId , ur.title,ur.boxOffice HAVING avg (ur.rate) > 0 ORDER BY avg (ur.rate) DESC,ur.boxOffice DESC")
     List<Object[]> findTopTenOrderedByBoxOffice();
 }

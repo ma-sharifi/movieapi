@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-@Profile("!prod")
+//@Profile("!prod")
 @Slf4j
 public class DataLoader implements CommandLineRunner {
 

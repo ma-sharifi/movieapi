@@ -58,32 +58,12 @@ class UserRateServiceUnitTest {
     }
 
     @Test
-    void shouldReturnMovieNotFoundException_whenSaveRateIsCalled() throws Exception {
+    void shouldReturnMovieNotFoundException_whenSaveRateIsCalled() {
+        UserMovieId id=new UserMovieId("1","1");
         MovieNotFoundException thrown = Assertions.assertThrows(MovieNotFoundException.class, () -> {
-            // Act
-            userRateService.findOne(new UserMovieId("1","1"));
+            userRateService.findOne(id);
         });
-        // Assert
         assertTrue(thrown.getMessage().contains("not find the movie"));
     }
-
-//    @Test
-//    void shouldReturnUserRate_whenTopTenCalled1() throws Exception {
-//
-//        // Arrange
-//        UserMovieId id = new UserMovieId("tt1375666", "mahdi");
-//        UserRate userRate = new UserRate(id, 1, "Inception", 92587330L);
-//        UserRateDto userRateDto = UserRateDto.builder().imdbId("tt1375666").username("mahdi").boxOffice(92587330L).title("Inception").build();
-//        when(userRateRepository.save(any(UserRate.class))).thenReturn(userRate);
-//        when(userRateMapper.toDto(any(UserRate.class))).thenReturn(userRateDto);
-//        System.out.println("#userRate: "+userRate);
-//        System.out.println("#userRateDto: "+userRateDto);
-////        when(userRateMapper.toDto(any(UserRate.class))).thenReturn(n);
-//
-//        // Act
-//        UserRateDto retrievedUserRateDto = userRateService.findOne(id);
-//        // Assert
-//        assertThat(retrievedUserRateDto, is(equalTo(userRateMapper.toDto(userRate))));
-//    }
 
 }

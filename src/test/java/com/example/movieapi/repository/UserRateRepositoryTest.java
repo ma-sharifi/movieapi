@@ -64,7 +64,7 @@ class UserRateRepositoryTest {
 
             assertEquals("tt1375666", userRateDtoList.get(0).getImdbId());
             assertEquals("Inception", userRateDtoList.get(0).getTitle());
-            assertEquals(BigInteger.valueOf(1000000000L), userRateDtoList.get(0).getBoxOffice());
+            assertEquals(1000000000L, userRateDtoList.get(0).getBoxOffice());
 
             return null;
         });
